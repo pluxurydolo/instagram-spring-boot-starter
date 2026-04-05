@@ -1,0 +1,109 @@
+package com.pluxurydolo.instagram.web;
+
+import com.pluxurydolo.instagram.dto.request.upload.image.CreateContainerRequest;
+import com.pluxurydolo.instagram.dto.request.upload.image.PublishImageContainerRequest;
+import com.pluxurydolo.instagram.dto.response.MediaContainerResponse;
+import com.pluxurydolo.instagram.dto.response.MediaContainerStatusResponse;
+import com.pluxurydolo.instagram.exception.CreateImageContainerException;
+import com.pluxurydolo.instagram.exception.ImageContainerStatusException;
+import com.pluxurydolo.instagram.exception.PublishImageContainerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
+import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
+
+public class InstagramUploadWebClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(InstagramUploadWebClient.class);
+
+    private final WebClient webClient;
+
+    public InstagramUploadWebClient() {
+        this.webClient = WebClient.builder()
+            .baseUrl("https://graph.facebook.com/v20.0")
+            .codecs(configurer -> configurer
+                .defaultCodecs()
+                .maxInMemorySize(16 * 1024 * 1024))
+            .build();
+    }
+
+    public Mono<MediaContainerResponse> createImageContainer(CreateContainerRequest request) {
+        String imageUrl = request.mediaUrl();
+        String caption = request.caption();
+        String userId = request.userId();
+        String accessToken = request.accessToken();
+
+        return webClient.post()
+            .uri("/{userId}/media", userId)
+            .body(fromFormData("image_url", imageUrl)
+                .with("access_token", accessToken)
+                .with("caption", caption))
+            .retrieve()
+            .bodyToMono(MediaContainerResponse.class)
+            .doOnSuccess(_ -> LOGGER.info("erhs [instagram-starter] Контейнер изображения {} успешно создан", imageUrl))
+            .onErrorResume(throwable -> {
+                LOGGER.error("dhwr [instagram-starter] Произошла ошибка при создании контейнера изображения {}", imageUrl);
+                return Mono.error(new CreateImageContainerException(throwable));
+            });
+    }
+
+    private Mono<MediaContainerResponse> createVideoContainer(CreateContainerRequest request) {
+        String videoUrl = request.mediaUrl();
+        String caption = request.caption();
+        String userId = request.userId();
+        String accessToken = request.accessToken();
+
+        return webClient.post()
+            .uri("/{userId}/media", userId)
+            .contentType(APPLICATION_FORM_URLENCODED)
+            .body(fromFormData("media_type", "REELS")
+                .with("video_url", videoUrl)
+                .with("access_token", accessToken)
+                .with("caption", caption)
+                .with("thumb_offset", "0")
+                .with("share_to_feed", "true"))
+            .retrieve()
+            .bodyToMono(MediaContainerResponse.class)
+            .doOnSuccess(_ -> LOGGER.info("xznj [instagram-starter] Контейнер видео {} успешно создан", videoUrl))
+            .onErrorResume(throwable -> {
+                LOGGER.error("plei [instagram-starter] Произошла ошибка при создании контейнера видео {}", videoUrl);
+                return Mono.error(new CreateImageContainerException(throwable));
+            });
+    }
+
+    public Mono<MediaContainerResponse> publishContainer(PublishImageContainerRequest request) {
+        String containerId = request.containerId();
+        String userId = request.userId();
+        String accessToken = request.accessToken();
+
+        return webClient.post()
+            .uri("/{userId}/media_publish", userId)
+            .body(fromFormData("creation_id", containerId)
+                .with("access_token", accessToken))
+            .retrieve()
+            .bodyToMono(MediaContainerResponse.class)
+            .doOnSuccess(_ -> LOGGER.info("ynup [instagram-starter] Контейнер {} успешно опубликован", containerId))
+            .onErrorResume(throwable -> {
+                LOGGER.error("ervb [instagram-starter] Произошла ошибка при публикации контейнера {}", containerId);
+                return Mono.error(new PublishImageContainerException(throwable));
+            });
+    }
+
+    public Mono<MediaContainerStatusResponse> getContainerStatus(String containerId, String accessToken) {
+        return webClient.get()
+            .uri(uriBuilder -> uriBuilder
+                .path("/{containerId}")
+                .queryParam("fields", "status_code,status")
+                .queryParam("access_token", accessToken)
+                .build(containerId))
+            .retrieve()
+            .bodyToMono(MediaContainerStatusResponse.class)
+            .doOnSuccess(_ -> LOGGER.info("jvkg [instagram-starter] Статус контейнера {} успешно получен", containerId))
+            .onErrorResume(throwable -> {
+                LOGGER.error("ykyn [instagram-starter] Произошла ошибка при проверке статуса контейнера {}", containerId);
+                return Mono.error(new ImageContainerStatusException(throwable));
+            });
+    }
+}
