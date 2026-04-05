@@ -41,7 +41,7 @@ class InstagramOAuthServiceTests {
 
     @Test
     void testLogin() {
-        when(instagramAuthorizationCodeFlow.authorizationUrl())
+        when(instagramAuthorizationCodeFlow.getAuthorizationUrl())
             .thenReturn("authorizationUrl");
 
         Mono<ResponseEntity<Void>> result = instagramOAuthService.login();

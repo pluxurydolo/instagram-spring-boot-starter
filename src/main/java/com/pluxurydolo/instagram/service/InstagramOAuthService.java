@@ -32,7 +32,7 @@ public class InstagramOAuthService {
     }
 
     public Mono<ResponseEntity<Void>> login() {
-        String authUrl = instagramAuthorizationCodeFlow.authorizationUrl();
+        String authUrl = instagramAuthorizationCodeFlow.getAuthorizationUrl();
         URI uri = URI.create(authUrl);
 
         ResponseEntity<Void> responseEntity = ResponseEntity.status(FOUND)
