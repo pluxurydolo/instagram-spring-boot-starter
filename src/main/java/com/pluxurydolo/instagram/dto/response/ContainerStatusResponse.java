@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record MediaContainerStatusResponse(
+public record ContainerStatusResponse(
 
     @JsonProperty("id")
     String id,

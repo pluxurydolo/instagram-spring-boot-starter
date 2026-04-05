@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.web;
 
 import com.pluxurydolo.instagram.dto.request.security.AccessTokenRequest;
 import com.pluxurydolo.instagram.dto.request.security.ExchangeTokenRequest;
-import com.pluxurydolo.instagram.dto.response.MetaTokenResponse;
+import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.exception.AccessTokenFlowException;
 import com.pluxurydolo.instagram.exception.ExchangeTokenFlowException;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class InstagramApiWebClient {
             .build();
     }
 
-    public Mono<MetaTokenResponse> getExchangeToken(ExchangeTokenRequest request) {
+    public Mono<TokenResponse> getExchangeToken(ExchangeTokenRequest request) {
         String appId = request.appId();
         String appSecret = request.appSecret();
         String redirectUri = request.redirectUri();
@@ -37,7 +37,7 @@ public class InstagramApiWebClient {
                 .build()
             )
             .retrieve()
-            .bodyToMono(MetaTokenResponse.class)
+            .bodyToMono(TokenResponse.class)
             .doOnSuccess(_ -> LOGGER.info("kyvk [instagram-starter] Exchange token успешно получен"))
             .onErrorResume(throwable -> {
                 LOGGER.error("fjor [instagram-starter] Произошла ошибка при получении exchange token");
@@ -45,7 +45,7 @@ public class InstagramApiWebClient {
             });
     }
 
-    public Mono<MetaTokenResponse> getAccessToken(AccessTokenRequest request) {
+    public Mono<TokenResponse> getAccessToken(AccessTokenRequest request) {
         String appId = request.appId();
         String appSecret = request.appSecret();
         String exchangeToken = request.exchangeToken();
@@ -60,7 +60,7 @@ public class InstagramApiWebClient {
                 .build()
             )
             .retrieve()
-            .bodyToMono(MetaTokenResponse.class)
+            .bodyToMono(TokenResponse.class)
             .doOnSuccess(_ -> LOGGER.info("nqsx [instagram-starter] Access token успешно получен"))
             .onErrorResume(throwable -> {
                 LOGGER.error("difh [instagram-starter] Произошла ошибка при получении access token");
