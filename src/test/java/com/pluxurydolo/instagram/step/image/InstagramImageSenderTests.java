@@ -1,9 +1,9 @@
-package com.pluxurydolo.instagram.step.video;
+package com.pluxurydolo.instagram.step.image;
 
 import com.pluxurydolo.instagram.dto.Token;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.VideoSenderException;
+import com.pluxurydolo.instagram.exception.ImageSenderException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.security.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramVideoSenderTests {
+class InstagramImageSenderTests {
 
     @Mock
-    private InstagramVideoContainerCreator instagramVideoContainerCreator;
+    private InstagramImageContainerCreator instagramImageContainerCreator;
 
     @Mock
     private InstagramContainerStatusPoller instagramContainerStatusPoller;
@@ -38,7 +38,7 @@ class InstagramVideoSenderTests {
     private InstagramProperties instagramProperties;
 
     @InjectMocks
-    private InstagramVideoSender instagramVideoSender;
+    private InstagramImageSender instagramImageSender;
 
     @Test
     void testUpload() {
@@ -46,14 +46,14 @@ class InstagramVideoSenderTests {
             .thenReturn("userId");
         when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(token()));
-        when(instagramVideoContainerCreator.create(any()))
+        when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
         when(instagramContainerStatusPoller.poll(any()))
             .thenReturn(Mono.just(""));
         when(instagramContainerPublisher.publish(any()))
             .thenReturn(Mono.just(containerResponse()));
 
-        Mono<String> result = instagramVideoSender.upload(uploadMediaRequest());
+        Mono<String> result = instagramImageSender.upload(uploadMediaRequest());
 
         create(result)
             .expectNext("id")
@@ -65,12 +65,14 @@ class InstagramVideoSenderTests {
         when(instagramProperties.userId())
             .thenReturn("userId");
         when(abstractTokenRetriever.retrieve())
+            .thenReturn(Mono.just(token()));
+        when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<String> result = instagramVideoSender.upload(uploadMediaRequest());
+        Mono<String> result = instagramImageSender.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(VideoSenderException.class)
+            .expectError(ImageSenderException.class)
             .verify();
     }
 
