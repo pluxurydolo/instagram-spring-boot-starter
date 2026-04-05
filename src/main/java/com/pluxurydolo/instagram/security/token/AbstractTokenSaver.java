@@ -1,15 +1,15 @@
 package com.pluxurydolo.instagram.security.token;
 
-import com.pluxurydolo.instagram.dto.response.MetaTokenResponse;
+import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 public abstract class AbstractTokenSaver {
-    public Mono<String> save(MetaTokenResponse metaTokenResponse) {
-        String accessToken = metaTokenResponse.accessToken();
-        String tokenType = metaTokenResponse.tokenType();
-        Long expiresIn = metaTokenResponse.expiresIn();
+    public Mono<String> save(TokenResponse tokenResponse) {
+        String accessToken = tokenResponse.accessToken();
+        String tokenType = tokenResponse.tokenType();
+        Long expiresIn = tokenResponse.expiresIn();
 
         Map<String, String> token = Map.of(
             "access_token", accessToken,
