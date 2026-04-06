@@ -22,10 +22,10 @@ class InstagramRefreshTokenSchedulerTests {
     private InstagramRefreshTokenScheduler instagramRefreshTokenScheduler;
 
     @Test
-    void testRefreshToken() {
+    void testSchedule() {
         when(instagramRefreshTokenSchedulerHandler.handle(anyString()))
             .thenReturn(Mono.just(""));
 
-        assertDoesNotThrow(instagramRefreshTokenScheduler::refreshToken);
+        assertDoesNotThrow(instagramRefreshTokenScheduler::schedule);
     }
 }
