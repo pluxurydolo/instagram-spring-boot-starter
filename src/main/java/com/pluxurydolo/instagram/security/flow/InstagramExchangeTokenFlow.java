@@ -10,7 +10,10 @@ public class InstagramExchangeTokenFlow {
     private final InstagramApiWebClient instagramApiWebClient;
     private final InstagramProperties instagramProperties;
 
-    public InstagramExchangeTokenFlow(InstagramApiWebClient instagramApiWebClient, InstagramProperties instagramProperties) {
+    public InstagramExchangeTokenFlow(
+        InstagramApiWebClient instagramApiWebClient,
+        InstagramProperties instagramProperties
+    ) {
         this.instagramApiWebClient = instagramApiWebClient;
         this.instagramProperties = instagramProperties;
     }

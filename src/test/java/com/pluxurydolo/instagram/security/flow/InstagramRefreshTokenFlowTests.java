@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramRefreshTokensFlowTests {
+class InstagramRefreshTokenFlowTests {
 
     @Mock
     private InstagramAccessTokenFlow instagramAccessTokenFlow;

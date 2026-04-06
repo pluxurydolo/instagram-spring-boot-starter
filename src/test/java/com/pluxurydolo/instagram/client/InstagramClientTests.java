@@ -1,8 +1,8 @@
 package com.pluxurydolo.instagram.client;
 
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
-import com.pluxurydolo.instagram.step.image.InstagramImageSender;
-import com.pluxurydolo.instagram.step.video.InstagramVideoSender;
+import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,10 +18,10 @@ import static reactor.test.StepVerifier.create;
 class InstagramClientTests {
 
     @Mock
-    private InstagramImageSender instagramImageUploader;
+    private InstagramImageUploader instagramImageUploader;
 
     @Mock
-    private InstagramVideoSender instagramVideoUploader;
+    private InstagramVideoUploader instagramVideoUploader;
 
     @InjectMocks
     private InstagramClient instagramClient;

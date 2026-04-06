@@ -1,16 +1,19 @@
 package com.pluxurydolo.instagram.client;
 
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
-import com.pluxurydolo.instagram.step.image.InstagramImageSender;
-import com.pluxurydolo.instagram.step.video.InstagramVideoSender;
+import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 public class InstagramClient {
-    private final InstagramImageSender instagramImageUploader;
-    private final InstagramVideoSender instagramVideoUploader;
+    private final InstagramImageUploader instagramImageUploader;
+    private final InstagramVideoUploader instagramVideoUploader;
 
-    public InstagramClient(InstagramImageSender instagramImageUploader, InstagramVideoSender instagramVideoUploader) {
+    public InstagramClient(
+        InstagramImageUploader instagramImageUploader,
+        InstagramVideoUploader instagramVideoUploader
+    ) {
         this.instagramImageUploader = instagramImageUploader;
         this.instagramVideoUploader = instagramVideoUploader;
     }

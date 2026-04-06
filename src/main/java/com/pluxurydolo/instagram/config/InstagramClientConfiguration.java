@@ -1,8 +1,8 @@
 package com.pluxurydolo.instagram.config;
 
 import com.pluxurydolo.instagram.client.InstagramClient;
-import com.pluxurydolo.instagram.step.image.InstagramImageSender;
-import com.pluxurydolo.instagram.step.video.InstagramVideoSender;
+import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,9 +11,9 @@ public class InstagramClientConfiguration {
 
     @Bean
     public InstagramClient instagramClient(
-        InstagramImageSender instagramImageSender,
-        InstagramVideoSender instagramVideoSender
+        InstagramImageUploader instagramImageUploader,
+        InstagramVideoUploader instagramVideoUploader
     ) {
-        return new InstagramClient(instagramImageSender, instagramVideoSender);
+        return new InstagramClient(instagramImageUploader, instagramVideoUploader);
     }
 }

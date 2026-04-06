@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramImageSenderTests {
+class InstagramImageUploaderTests {
 
     @Mock
     private InstagramImageContainerCreator instagramImageContainerCreator;
@@ -38,7 +38,7 @@ class InstagramImageSenderTests {
     private InstagramProperties instagramProperties;
 
     @InjectMocks
-    private InstagramImageSender instagramImageSender;
+    private InstagramImageUploader instagramImageUploader;
 
     @Test
     void testUpload() {
@@ -53,7 +53,7 @@ class InstagramImageSenderTests {
         when(instagramContainerPublisher.publish(any()))
             .thenReturn(Mono.just(containerResponse()));
 
-        Mono<String> result = instagramImageSender.upload(uploadMediaRequest());
+        Mono<String> result = instagramImageUploader.upload(uploadMediaRequest());
 
         create(result)
             .expectNext("id")
@@ -69,7 +69,7 @@ class InstagramImageSenderTests {
         when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<String> result = instagramImageSender.upload(uploadMediaRequest());
+        Mono<String> result = instagramImageUploader.upload(uploadMediaRequest());
 
         create(result)
             .expectError(InstagramImageSenderException.class)

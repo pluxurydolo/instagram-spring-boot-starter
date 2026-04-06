@@ -6,9 +6,9 @@ import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import com.pluxurydolo.instagram.step.image.InstagramImageContainerCreator;
-import com.pluxurydolo.instagram.step.image.InstagramImageSender;
+import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
 import com.pluxurydolo.instagram.step.video.InstagramVideoContainerCreator;
-import com.pluxurydolo.instagram.step.video.InstagramVideoSender;
+import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,14 +17,14 @@ import org.springframework.context.annotation.Configuration;
 public class InstagramUploadStepConfiguration {
 
     @Bean
-    public InstagramImageSender instagramImageSender(
+    public InstagramImageUploader instagramImageUploader(
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokensRetriever abstractTokensRetriever,
         InstagramProperties instagramProperties
     ) {
-        return new InstagramImageSender(
+        return new InstagramImageUploader(
             instagramImageContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
@@ -34,14 +34,14 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
-    public InstagramVideoSender instagramVideoSender(
+    public InstagramVideoUploader instagramVideoUploader(
         InstagramVideoContainerCreator instagramVideoContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokensRetriever abstractTokensRetriever,
         InstagramProperties instagramProperties
     ) {
-        return new InstagramVideoSender(
+        return new InstagramVideoUploader(
             instagramVideoContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
