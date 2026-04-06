@@ -1,14 +1,14 @@
 package com.pluxurydolo.instagram.step.image;
 
-import com.pluxurydolo.instagram.dto.Token;
+import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.ImageSenderException;
+import com.pluxurydolo.instagram.exception.InstagramImageSenderException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokenRetriever;
+import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import org.slf4j.Logger;
@@ -21,20 +21,20 @@ public class InstagramImageSender {
     private final InstagramImageContainerCreator instagramImageContainerCreator;
     private final InstagramContainerStatusPoller instagramContainerStatusPoller;
     private final InstagramContainerPublisher instagramContainerPublisher;
-    private final AbstractTokenRetriever abstractTokenRetriever;
+    private final AbstractTokensRetriever abstractTokensRetriever;
     private final InstagramProperties instagramProperties;
 
     public InstagramImageSender(
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
-        AbstractTokenRetriever abstractTokenRetriever,
+        AbstractTokensRetriever abstractTokensRetriever,
         InstagramProperties instagramProperties
     ) {
         this.instagramImageContainerCreator = instagramImageContainerCreator;
         this.instagramContainerStatusPoller = instagramContainerStatusPoller;
         this.instagramContainerPublisher = instagramContainerPublisher;
-        this.abstractTokenRetriever = abstractTokenRetriever;
+        this.abstractTokensRetriever = abstractTokensRetriever;
         this.instagramProperties = instagramProperties;
     }
 
@@ -43,12 +43,12 @@ public class InstagramImageSender {
         String caption = request.caption();
         String userId = instagramProperties.userId();
 
-        return abstractTokenRetriever.retrieve()
-            .map(Token::accessToken)
+        return abstractTokensRetriever.retrieve()
+            .map(Tokens::accessToken)
             .flatMap(accessToken -> uploadImage(imageUrl, caption, userId, accessToken))
             .map(ContainerResponse::id)
             .doOnSuccess(_ -> LOGGER.info("avyk [instagram-starter] Изображение успешно опубликовано"))
-            .onErrorResume(throwable -> Mono.error(new ImageSenderException(throwable)));
+            .onErrorResume(throwable -> Mono.error(new InstagramImageSenderException(throwable)));
     }
 
     private Mono<ContainerResponse> uploadImage(String imageUrl, String caption, String userId, String accessToken) {

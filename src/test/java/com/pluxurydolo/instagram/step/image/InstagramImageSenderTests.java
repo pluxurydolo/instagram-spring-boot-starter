@@ -1,11 +1,11 @@
 package com.pluxurydolo.instagram.step.image;
 
-import com.pluxurydolo.instagram.dto.Token;
+import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.ImageSenderException;
+import com.pluxurydolo.instagram.exception.InstagramImageSenderException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokenRetriever;
+import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class InstagramImageSenderTests {
     private InstagramContainerPublisher instagramContainerPublisher;
 
     @Mock
-    private AbstractTokenRetriever abstractTokenRetriever;
+    private AbstractTokensRetriever abstractTokensRetriever;
 
     @Mock
     private InstagramProperties instagramProperties;
@@ -44,8 +44,8 @@ class InstagramImageSenderTests {
     void testUpload() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(token()));
+        when(abstractTokensRetriever.retrieve())
+            .thenReturn(Mono.just(tokens()));
         when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
         when(instagramContainerStatusPoller.poll(any()))
@@ -64,15 +64,15 @@ class InstagramImageSenderTests {
     void testUploadWhenExceptionOccurred() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(token()));
+        when(abstractTokensRetriever.retrieve())
+            .thenReturn(Mono.just(tokens()));
         when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<String> result = instagramImageSender.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(ImageSenderException.class)
+            .expectError(InstagramImageSenderException.class)
             .verify();
     }
 
@@ -80,8 +80,8 @@ class InstagramImageSenderTests {
         return new UploadMediaRequest("mediaUrl", "caption");
     }
 
-    private static Token token() {
-        return new Token("accessToken");
+    private static Tokens tokens() {
+        return new Tokens("exchangeToken", "accessToken");
     }
 
     private static ContainerResponse containerResponse() {

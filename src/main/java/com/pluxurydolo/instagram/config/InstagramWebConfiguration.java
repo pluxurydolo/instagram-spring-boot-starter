@@ -4,7 +4,8 @@ import com.pluxurydolo.instagram.controller.InstagramOAuthController;
 import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokenSaver;
+import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
@@ -24,13 +25,15 @@ public class InstagramWebConfiguration {
         InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow,
         InstagramExchangeTokenFlow instagramExchangeTokenFlow,
         InstagramAccessTokenFlow instagramAccessTokenFlow,
-        AbstractTokenSaver abstractTokenSaver
+        InstagramRefreshTokenFlow instagramRefreshTokenFlow,
+        AbstractTokensRetriever abstractTokensRetriever
     ) {
         return new InstagramOAuthService(
             instagramAuthorizationCodeFlow,
             instagramExchangeTokenFlow,
             instagramAccessTokenFlow,
-            abstractTokenSaver
+            instagramRefreshTokenFlow,
+            abstractTokensRetriever
         );
     }
 

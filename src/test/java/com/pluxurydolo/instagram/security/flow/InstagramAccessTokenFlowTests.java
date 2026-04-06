@@ -2,6 +2,7 @@ package com.pluxurydolo.instagram.security.flow;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.security.token.AbstractTokensSaver;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
@@ -23,6 +25,9 @@ class InstagramAccessTokenFlowTests {
     @Mock
     private InstagramApiWebClient instagramApiWebClient;
 
+    @Mock
+    private AbstractTokensSaver abstractTokensSaver;
+
     @InjectMocks
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
 
@@ -34,11 +39,13 @@ class InstagramAccessTokenFlowTests {
             .thenReturn("appSecret");
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
+        when(abstractTokensSaver.save(any(), anyString()))
+            .thenReturn(Mono.just(""));
 
-        Mono<TokenResponse> result = instagramAccessTokenFlow.getToken("exchangeToken");
+        Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");
 
         create(result)
-            .expectNext(tokenResponse())
+            .expectNext("")
             .verifyComplete();
     }
 
@@ -51,7 +58,7 @@ class InstagramAccessTokenFlowTests {
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<TokenResponse> result = instagramAccessTokenFlow.getToken("exchangeToken");
+        Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");
 
         create(result)
             .expectError(RuntimeException.class)

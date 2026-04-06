@@ -24,4 +24,9 @@ public class InstagramOAuthController {
     public Mono<String> callback(@RequestParam("code") String code) {
         return instagramOAuthService.callback(code);
     }
+
+    @GetMapping("${instagram.refresh.url}")
+    public Mono<String> refreshToken() {
+        return instagramOAuthService.refreshToken();
+    }
 }

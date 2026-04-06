@@ -1,6 +1,5 @@
 package com.pluxurydolo.instagram.security.flow;
 
-import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import reactor.core.publisher.Mono;
 
 public class InstagramRefreshTokenFlow {
@@ -10,7 +9,7 @@ public class InstagramRefreshTokenFlow {
         this.instagramAccessTokenFlow = instagramAccessTokenFlow;
     }
 
-    public Mono<TokenResponse> refreshToken(String currentToken) {
+    public Mono<String> refreshToken(String currentToken) {
         return instagramAccessTokenFlow.getToken(currentToken);
     }
 }

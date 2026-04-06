@@ -1,6 +1,5 @@
 package com.pluxurydolo.instagram.security.flow;
 
-import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,7 +12,7 @@ import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramRefreshTokenFlowTests {
+class InstagramRefreshTokensFlowTests {
 
     @Mock
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
@@ -24,12 +23,12 @@ class InstagramRefreshTokenFlowTests {
     @Test
     void testRefreshToken() {
         when(instagramAccessTokenFlow.getToken(anyString()))
-            .thenReturn(Mono.just(tokenResponse()));
+            .thenReturn(Mono.just(""));
 
-        Mono<TokenResponse> result = instagramRefreshTokenFlow.refreshToken("currentToken");
+        Mono<String> result = instagramRefreshTokenFlow.refreshToken("currentToken");
 
         create(result)
-            .expectNext(tokenResponse())
+            .expectNext("")
             .verifyComplete();
     }
 
@@ -38,14 +37,10 @@ class InstagramRefreshTokenFlowTests {
         when(instagramAccessTokenFlow.getToken(anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<TokenResponse> result = instagramRefreshTokenFlow.refreshToken("currentToken");
+        Mono<String> result = instagramRefreshTokenFlow.refreshToken("currentToken");
 
         create(result)
             .expectError(RuntimeException.class)
             .verify();
-    }
-
-    private static TokenResponse tokenResponse() {
-        return new TokenResponse("accessToken", "tokenType", 1L);
     }
 }

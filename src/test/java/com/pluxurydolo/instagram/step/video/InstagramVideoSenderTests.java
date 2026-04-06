@@ -1,11 +1,11 @@
 package com.pluxurydolo.instagram.step.video;
 
-import com.pluxurydolo.instagram.dto.Token;
+import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.VideoSenderException;
+import com.pluxurydolo.instagram.exception.InstagramVideoSenderException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokenRetriever;
+import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class InstagramVideoSenderTests {
     private InstagramContainerPublisher instagramContainerPublisher;
 
     @Mock
-    private AbstractTokenRetriever abstractTokenRetriever;
+    private AbstractTokensRetriever abstractTokensRetriever;
 
     @Mock
     private InstagramProperties instagramProperties;
@@ -44,8 +44,8 @@ class InstagramVideoSenderTests {
     void testUpload() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(token()));
+        when(abstractTokensRetriever.retrieve())
+            .thenReturn(Mono.just(tokens()));
         when(instagramVideoContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
         when(instagramContainerStatusPoller.poll(any()))
@@ -64,13 +64,13 @@ class InstagramVideoSenderTests {
     void testUploadWhenExceptionOccurred() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokenRetriever.retrieve())
+        when(abstractTokensRetriever.retrieve())
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<String> result = instagramVideoSender.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(VideoSenderException.class)
+            .expectError(InstagramVideoSenderException.class)
             .verify();
     }
 
@@ -78,8 +78,8 @@ class InstagramVideoSenderTests {
         return new UploadMediaRequest("mediaUrl", "caption");
     }
 
-    private static Token token() {
-        return new Token("accessToken");
+    private static Tokens tokens() {
+        return new Tokens("exchangeToken", "accessToken");
     }
 
     private static ContainerResponse containerResponse() {

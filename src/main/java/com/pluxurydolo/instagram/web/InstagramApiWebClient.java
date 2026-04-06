@@ -3,8 +3,8 @@ package com.pluxurydolo.instagram.web;
 import com.pluxurydolo.instagram.dto.request.security.AccessTokenRequest;
 import com.pluxurydolo.instagram.dto.request.security.ExchangeTokenRequest;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.exception.AccessTokenFlowException;
-import com.pluxurydolo.instagram.exception.ExchangeTokenFlowException;
+import com.pluxurydolo.instagram.exception.InstagramAccessTokenFlowException;
+import com.pluxurydolo.instagram.exception.InstagramExchangeTokenFlowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -41,7 +41,7 @@ public class InstagramApiWebClient {
             .doOnSuccess(_ -> LOGGER.info("kyvk [instagram-starter] Exchange token успешно получен"))
             .onErrorResume(throwable -> {
                 LOGGER.error("fjor [instagram-starter] Произошла ошибка при получении exchange token");
-                return Mono.error(new ExchangeTokenFlowException(throwable));
+                return Mono.error(new InstagramExchangeTokenFlowException(throwable));
             });
     }
 
@@ -64,7 +64,7 @@ public class InstagramApiWebClient {
             .doOnSuccess(_ -> LOGGER.info("nqsx [instagram-starter] Access token успешно получен"))
             .onErrorResume(throwable -> {
                 LOGGER.error("difh [instagram-starter] Произошла ошибка при получении access token");
-                return Mono.error(new AccessTokenFlowException(throwable));
+                return Mono.error(new InstagramAccessTokenFlowException(throwable));
             });
     }
 }

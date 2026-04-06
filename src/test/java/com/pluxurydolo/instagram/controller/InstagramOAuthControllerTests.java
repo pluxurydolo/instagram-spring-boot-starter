@@ -41,6 +41,18 @@ class InstagramOAuthControllerTests {
             .verifyComplete();
     }
 
+    @Test
+    void testRefreshToken() {
+        when(OAUTH_SERVICE.refreshToken())
+            .thenReturn(Mono.just(""));
+
+        Mono<String> result = OAUTH_CONTROLLER.refreshToken();
+
+        create(result)
+            .expectNext("")
+            .verifyComplete();
+    }
+
     private static ResponseEntity<Void> responseEntity() {
         URI uri = URI.create("redirectUri");
 

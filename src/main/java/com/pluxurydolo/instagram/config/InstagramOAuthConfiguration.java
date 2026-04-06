@@ -5,6 +5,7 @@ import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.security.token.AbstractTokensSaver;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +29,10 @@ public class InstagramOAuthConfiguration {
     @Bean
     public InstagramAccessTokenFlow instagramAccessTokenFlow(
         InstagramProperties instagramProperties,
-        InstagramApiWebClient instagramApiWebClient
+        InstagramApiWebClient instagramApiWebClient,
+        AbstractTokensSaver abstractTokensSaver
     ) {
-        return new InstagramAccessTokenFlow(instagramProperties, instagramApiWebClient);
+        return new InstagramAccessTokenFlow(instagramProperties, instagramApiWebClient, abstractTokensSaver);
     }
 
     @Bean

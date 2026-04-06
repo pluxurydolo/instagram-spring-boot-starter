@@ -3,7 +3,6 @@ package com.pluxurydolo.instagram.step;
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
 import com.pluxurydolo.instagram.properties.PollingProperties;
-import com.pluxurydolo.instagram.util.ContainerStatusLogger;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -19,16 +18,13 @@ public class InstagramContainerStatusPoller {
     private static final Logger LOGGER = LoggerFactory.getLogger(InstagramContainerStatusPoller.class);
 
     private final InstagramUploadWebClient instagramUploadWebClient;
-    private final ContainerStatusLogger containerStatusLogger;
     private final PollingProperties pollingProperties;
 
     public InstagramContainerStatusPoller(
         InstagramUploadWebClient instagramUploadWebClient,
-        ContainerStatusLogger containerStatusLogger,
         PollingProperties pollingProperties
     ) {
         this.instagramUploadWebClient = instagramUploadWebClient;
-        this.containerStatusLogger = containerStatusLogger;
         this.pollingProperties = pollingProperties;
     }
 
@@ -54,7 +50,7 @@ public class InstagramContainerStatusPoller {
     private Mono<String> validateContainerStatus(String containerId, String accessToken) {
         return instagramUploadWebClient.getContainerStatus(containerId, accessToken)
             .map(ContainerStatusResponse::statusCode)
-            .doOnNext(containerStatusLogger::log)
+            .doOnNext(status -> LOGGER.info("qsfx [instagram-starter] Статус контейнера: {}", status))
             .filter("FINISHED"::equals);
     }
 }

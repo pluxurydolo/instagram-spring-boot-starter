@@ -1,10 +1,12 @@
 package com.pluxurydolo.instagram.service;
 
+import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
 import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokenSaver;
+import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import java.net.URI;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.FOUND;
@@ -34,7 +35,10 @@ class InstagramOAuthServiceTests {
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
 
     @Mock
-    private AbstractTokenSaver abstractTokenSaver;
+    private InstagramRefreshTokenFlow instagramRefreshTokenFlow;
+
+    @Mock
+    private AbstractTokensRetriever abstractTokensRetriever;
 
     @InjectMocks
     private InstagramOAuthService instagramOAuthService;
@@ -56,12 +60,24 @@ class InstagramOAuthServiceTests {
         when(instagramExchangeTokenFlow.getToken(anyString()))
             .thenReturn(Mono.just(tokenResponse()));
         when(instagramAccessTokenFlow.getToken(anyString()))
-            .thenReturn(Mono.just(tokenResponse()));
-        when(abstractTokenSaver.save(any()))
             .thenReturn(Mono.just(""));
 
 
         Mono<String> result = instagramOAuthService.callback("code");
+
+        create(result)
+            .expectNext("")
+            .verifyComplete();
+    }
+
+    @Test
+    void testRefreshToken() {
+        when(abstractTokensRetriever.retrieve())
+            .thenReturn(Mono.just(tokens()));
+        when(instagramRefreshTokenFlow.refreshToken(anyString()))
+            .thenReturn(Mono.just(""));
+
+        Mono<String> result = instagramOAuthService.refreshToken();
 
         create(result)
             .expectNext("")
@@ -78,5 +94,9 @@ class InstagramOAuthServiceTests {
 
     private static TokenResponse tokenResponse() {
         return new TokenResponse("accessToken", "tokenType", 1L);
+    }
+
+    private static Tokens tokens() {
+        return new Tokens("exchangeToken", "accessToken");
     }
 }

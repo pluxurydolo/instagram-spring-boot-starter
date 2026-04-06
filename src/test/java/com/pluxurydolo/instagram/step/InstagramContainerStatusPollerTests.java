@@ -3,7 +3,6 @@ package com.pluxurydolo.instagram.step;
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
 import com.pluxurydolo.instagram.properties.PollingProperties;
-import com.pluxurydolo.instagram.util.ContainerStatusLogger;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +14,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
@@ -26,9 +24,6 @@ class InstagramContainerStatusPollerTests {
     private InstagramUploadWebClient instagramUploadWebClient;
 
     @Mock
-    private ContainerStatusLogger containerStatusLogger;
-
-    @Mock
     private PollingProperties pollingProperties;
 
     @InjectMocks
@@ -36,8 +31,6 @@ class InstagramContainerStatusPollerTests {
 
     @Test
     void testPoll() {
-        doNothing()
-            .when(containerStatusLogger).log(anyString());
         when(pollingProperties.delay())
             .thenReturn(Duration.ofSeconds(1));
         when(pollingProperties.maxRepeat())
