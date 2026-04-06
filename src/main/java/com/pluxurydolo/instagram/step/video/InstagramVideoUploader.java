@@ -6,7 +6,7 @@ import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramVideoSenderException;
+import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
@@ -48,7 +48,10 @@ public class InstagramVideoUploader {
             .flatMap(accessToken -> uploadVideo(videoUrl, caption, userId, accessToken))
             .map(ContainerResponse::id)
             .doOnSuccess(_ -> LOGGER.info("urue [instagram-starter] Видео успешно опубликовано"))
-            .onErrorResume(throwable -> Mono.error(new InstagramVideoSenderException(throwable)));
+            .onErrorResume(throwable -> {
+                LOGGER.info("njkw [instagram-starter] Произошла ошибка при публикации видео");
+                return Mono.error(new InstagramVideoUploadException(throwable));
+            });
     }
 
     private Mono<ContainerResponse> uploadVideo(String videoUrl, String caption, String userId, String accessToken) {

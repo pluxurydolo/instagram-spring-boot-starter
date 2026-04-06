@@ -1,12 +1,12 @@
 package com.pluxurydolo.instagram.step.image;
 
 import com.pluxurydolo.instagram.dto.Tokens;
-import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
+import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramImageSenderException;
+import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
@@ -48,7 +48,10 @@ public class InstagramImageUploader {
             .flatMap(accessToken -> uploadImage(imageUrl, caption, userId, accessToken))
             .map(ContainerResponse::id)
             .doOnSuccess(_ -> LOGGER.info("avyk [instagram-starter] Изображение успешно опубликовано"))
-            .onErrorResume(throwable -> Mono.error(new InstagramImageSenderException(throwable)));
+            .onErrorResume(throwable -> {
+                LOGGER.info("ipjh [instagram-starter] Произошла ошибка при публикации изображения");
+                return Mono.error(new InstagramImageUploadException(throwable));
+            });
     }
 
     private Mono<ContainerResponse> uploadImage(String imageUrl, String caption, String userId, String accessToken) {

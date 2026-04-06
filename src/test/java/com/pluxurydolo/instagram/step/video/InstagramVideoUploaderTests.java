@@ -3,7 +3,7 @@ package com.pluxurydolo.instagram.step.video;
 import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramVideoSenderException;
+import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
@@ -70,7 +70,7 @@ class InstagramVideoUploaderTests {
         Mono<String> result = instagramVideoUploader.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(InstagramVideoSenderException.class)
+            .expectError(InstagramVideoUploadException.class)
             .verify();
     }
 
