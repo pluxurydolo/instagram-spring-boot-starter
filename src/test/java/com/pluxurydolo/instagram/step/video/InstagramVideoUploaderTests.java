@@ -5,7 +5,7 @@ import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class InstagramVideoUploaderTests {
     private InstagramContainerPublisher instagramContainerPublisher;
 
     @Mock
-    private AbstractTokensRetriever abstractTokensRetriever;
+    private AbstractTokenRetriever abstractTokenRetriever;
 
     @Mock
     private InstagramProperties instagramProperties;
@@ -44,7 +44,7 @@ class InstagramVideoUploaderTests {
     void testUpload() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokensRetriever.retrieve())
+        when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(tokens()));
         when(instagramVideoContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
@@ -64,7 +64,7 @@ class InstagramVideoUploaderTests {
     void testUploadWhenExceptionOccurred() {
         when(instagramProperties.userId())
             .thenReturn("userId");
-        when(abstractTokensRetriever.retrieve())
+        when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<String> result = instagramVideoUploader.upload(uploadMediaRequest());

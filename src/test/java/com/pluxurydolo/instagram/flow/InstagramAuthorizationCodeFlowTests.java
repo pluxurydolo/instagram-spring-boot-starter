@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.security.flow;
+package com.pluxurydolo.instagram.flow;
 
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import org.junit.jupiter.api.Test;

@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.config;
 
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.properties.PollingProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import com.pluxurydolo.instagram.step.image.InstagramImageContainerCreator;
@@ -21,14 +21,14 @@ public class InstagramUploadStepConfiguration {
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
-        AbstractTokensRetriever abstractTokensRetriever,
+        AbstractTokenRetriever abstractTokenRetriever,
         InstagramProperties instagramProperties
     ) {
         return new InstagramImageUploader(
             instagramImageContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
-            abstractTokensRetriever,
+            abstractTokenRetriever,
             instagramProperties
         );
     }
@@ -38,14 +38,14 @@ public class InstagramUploadStepConfiguration {
         InstagramVideoContainerCreator instagramVideoContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
-        AbstractTokensRetriever abstractTokensRetriever,
+        AbstractTokenRetriever abstractTokenRetriever,
         InstagramProperties instagramProperties
     ) {
         return new InstagramVideoUploader(
             instagramVideoContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
-            abstractTokensRetriever,
+            abstractTokenRetriever,
             instagramProperties
         );
     }

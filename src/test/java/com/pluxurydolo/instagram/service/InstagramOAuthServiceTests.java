@@ -2,11 +2,11 @@ package com.pluxurydolo.instagram.service;
 
 import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
+import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,7 +38,7 @@ class InstagramOAuthServiceTests {
     private InstagramRefreshTokenFlow instagramRefreshTokenFlow;
 
     @Mock
-    private AbstractTokensRetriever abstractTokensRetriever;
+    private AbstractTokenRetriever abstractTokenRetriever;
 
     @InjectMocks
     private InstagramOAuthService instagramOAuthService;
@@ -72,7 +72,7 @@ class InstagramOAuthServiceTests {
 
     @Test
     void testRefreshToken() {
-        when(abstractTokensRetriever.retrieve())
+        when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(tokens()));
         when(instagramRefreshTokenFlow.refreshToken(anyString()))
             .thenReturn(Mono.just(""));

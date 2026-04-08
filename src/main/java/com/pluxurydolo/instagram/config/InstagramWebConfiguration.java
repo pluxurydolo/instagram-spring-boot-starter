@@ -1,11 +1,11 @@
 package com.pluxurydolo.instagram.config;
 
 import com.pluxurydolo.instagram.controller.InstagramOAuthController;
-import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
+import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
@@ -26,14 +26,14 @@ public class InstagramWebConfiguration {
         InstagramExchangeTokenFlow instagramExchangeTokenFlow,
         InstagramAccessTokenFlow instagramAccessTokenFlow,
         InstagramRefreshTokenFlow instagramRefreshTokenFlow,
-        AbstractTokensRetriever abstractTokensRetriever
+        AbstractTokenRetriever abstractTokenRetriever
     ) {
         return new InstagramOAuthService(
             instagramAuthorizationCodeFlow,
             instagramExchangeTokenFlow,
             instagramAccessTokenFlow,
             instagramRefreshTokenFlow,
-            abstractTokensRetriever
+            abstractTokenRetriever
         );
     }
 

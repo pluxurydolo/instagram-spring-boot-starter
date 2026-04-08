@@ -8,7 +8,7 @@ import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
 import org.slf4j.Logger;
@@ -21,20 +21,20 @@ public class InstagramImageUploader {
     private final InstagramImageContainerCreator instagramImageContainerCreator;
     private final InstagramContainerStatusPoller instagramContainerStatusPoller;
     private final InstagramContainerPublisher instagramContainerPublisher;
-    private final AbstractTokensRetriever abstractTokensRetriever;
+    private final AbstractTokenRetriever abstractTokenRetriever;
     private final InstagramProperties instagramProperties;
 
     public InstagramImageUploader(
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
-        AbstractTokensRetriever abstractTokensRetriever,
+        AbstractTokenRetriever abstractTokenRetriever,
         InstagramProperties instagramProperties
     ) {
         this.instagramImageContainerCreator = instagramImageContainerCreator;
         this.instagramContainerStatusPoller = instagramContainerStatusPoller;
         this.instagramContainerPublisher = instagramContainerPublisher;
-        this.abstractTokensRetriever = abstractTokensRetriever;
+        this.abstractTokenRetriever = abstractTokenRetriever;
         this.instagramProperties = instagramProperties;
     }
 
@@ -43,7 +43,7 @@ public class InstagramImageUploader {
         String caption = request.caption();
         String userId = instagramProperties.userId();
 
-        return abstractTokensRetriever.retrieve()
+        return abstractTokenRetriever.retrieve()
             .map(Tokens::accessToken)
             .flatMap(accessToken -> uploadImage(imageUrl, caption, userId, accessToken))
             .map(ContainerResponse::id)

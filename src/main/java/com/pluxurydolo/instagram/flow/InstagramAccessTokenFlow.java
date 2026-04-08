@@ -1,24 +1,24 @@
-package com.pluxurydolo.instagram.security.flow;
+package com.pluxurydolo.instagram.flow;
 
 import com.pluxurydolo.instagram.dto.request.security.AccessTokenRequest;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokensSaver;
+import com.pluxurydolo.instagram.token.AbstractTokenSaver;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import reactor.core.publisher.Mono;
 
 public class InstagramAccessTokenFlow {
     private final InstagramProperties instagramProperties;
     private final InstagramApiWebClient instagramApiWebClient;
-    private final AbstractTokensSaver abstractTokensSaver;
+    private final AbstractTokenSaver abstractTokenSaver;
 
     public InstagramAccessTokenFlow(
         InstagramProperties instagramProperties,
         InstagramApiWebClient instagramApiWebClient,
-        AbstractTokensSaver abstractTokensSaver
+        AbstractTokenSaver abstractTokenSaver
     ) {
         this.instagramProperties = instagramProperties;
         this.instagramApiWebClient = instagramApiWebClient;
-        this.abstractTokensSaver = abstractTokensSaver;
+        this.abstractTokenSaver = abstractTokenSaver;
     }
 
     public Mono<String> getToken(String exchangeToken) {
@@ -27,6 +27,6 @@ public class InstagramAccessTokenFlow {
         AccessTokenRequest request = new AccessTokenRequest(appId, appSecret, exchangeToken);
 
         return instagramApiWebClient.getAccessToken(request)
-            .flatMap(tokenResponse -> abstractTokensSaver.save(tokenResponse, exchangeToken));
+            .flatMap(tokenResponse -> abstractTokenSaver.save(tokenResponse, exchangeToken));
     }
 }

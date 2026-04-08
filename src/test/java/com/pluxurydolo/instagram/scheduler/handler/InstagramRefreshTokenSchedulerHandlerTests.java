@@ -2,8 +2,8 @@ package com.pluxurydolo.instagram.scheduler.handler;
 
 import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
-import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +23,7 @@ class InstagramRefreshTokenSchedulerHandlerTests {
     private InstagramRefreshTokenFlow instagramRefreshTokenFlow;
 
     @Mock
-    private AbstractTokensRetriever abstractTokensRetriever;
+    private AbstractTokenRetriever abstractTokenRetriever;
 
     @Mock
     private RefreshTokenSchedulerHandlerHook refreshTokenSchedulerHandlerHook;
@@ -33,7 +33,7 @@ class InstagramRefreshTokenSchedulerHandlerTests {
 
     @Test
     void testHandle() {
-        when(abstractTokensRetriever.retrieve())
+        when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(tokens()));
         when(instagramRefreshTokenFlow.refreshToken(anyString()))
             .thenReturn(Mono.just(""));
@@ -49,7 +49,7 @@ class InstagramRefreshTokenSchedulerHandlerTests {
 
     @Test
     void testHandleWhenExceptionOccurred() {
-        when(abstractTokensRetriever.retrieve())
+        when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.error(new RuntimeException()));
         when(refreshTokenSchedulerHandlerHook.handleException(any(), anyString()))
             .thenReturn(Mono.just(""));

@@ -18,7 +18,8 @@ import org.springframework.context.annotation.Import;
     InstagramWebConfiguration.class,
     InstagramClientConfiguration.class,
     InstagramUploadStepConfiguration.class,
-    InstagramSchedulingConfiguration.class
+    InstagramSchedulingConfiguration.class,
+    InstagramFilterConfiguration.class
 })
 public class InstagramAutoConfiguration {
 }

@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.security.flow;
+package com.pluxurydolo.instagram.flow;
 
 import reactor.core.publisher.Mono;
 

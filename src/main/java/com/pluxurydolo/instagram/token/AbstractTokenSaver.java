@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.security.token;
+package com.pluxurydolo.instagram.token;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import reactor.core.publisher.Mono;
@@ -10,7 +10,7 @@ import java.util.Map;
 import static java.time.LocalDateTime.now;
 import static java.time.format.DateTimeFormatter.ofPattern;
 
-public abstract class AbstractTokensSaver {
+public abstract class AbstractTokenSaver {
     public Mono<String> save(TokenResponse tokenResponse, String exchangeToken) {
         String accessToken = tokenResponse.accessToken();
         String tokenType = tokenResponse.tokenType();

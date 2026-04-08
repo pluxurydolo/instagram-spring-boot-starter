@@ -2,11 +2,11 @@ package com.pluxurydolo.instagram.service;
 
 import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.security.flow.InstagramAccessTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramAuthorizationCodeFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.security.flow.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.security.token.AbstractTokensRetriever;
+import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
+import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
+import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -20,20 +20,20 @@ public class InstagramOAuthService {
     private final InstagramExchangeTokenFlow instagramExchangeTokenFlow;
     private final InstagramAccessTokenFlow instagramAccessTokenFlow;
     private final InstagramRefreshTokenFlow instagramRefreshTokenFlow;
-    private final AbstractTokensRetriever abstractTokensRetriever;
+    private final AbstractTokenRetriever abstractTokenRetriever;
 
     public InstagramOAuthService(
         InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow,
         InstagramExchangeTokenFlow instagramExchangeTokenFlow,
         InstagramAccessTokenFlow instagramAccessTokenFlow,
         InstagramRefreshTokenFlow instagramRefreshTokenFlow,
-        AbstractTokensRetriever abstractTokensRetriever
+        AbstractTokenRetriever abstractTokenRetriever
     ) {
         this.instagramAuthorizationCodeFlow = instagramAuthorizationCodeFlow;
         this.instagramExchangeTokenFlow = instagramExchangeTokenFlow;
         this.instagramAccessTokenFlow = instagramAccessTokenFlow;
         this.instagramRefreshTokenFlow = instagramRefreshTokenFlow;
-        this.abstractTokensRetriever = abstractTokensRetriever;
+        this.abstractTokenRetriever = abstractTokenRetriever;
     }
 
     public Mono<ResponseEntity<Void>> login() {
@@ -55,7 +55,7 @@ public class InstagramOAuthService {
     }
 
     public Mono<String> refreshToken() {
-        return abstractTokensRetriever.retrieve()
+        return abstractTokenRetriever.retrieve()
             .map(Tokens::exchangeToken)
             .flatMap(instagramRefreshTokenFlow::refreshToken)
             .subscribeOn(Schedulers.boundedElastic());

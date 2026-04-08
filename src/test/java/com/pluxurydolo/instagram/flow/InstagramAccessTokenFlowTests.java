@@ -1,8 +1,8 @@
-package com.pluxurydolo.instagram.security.flow;
+package com.pluxurydolo.instagram.flow;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.security.token.AbstractTokensSaver;
+import com.pluxurydolo.instagram.token.AbstractTokenSaver;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ class InstagramAccessTokenFlowTests {
     private InstagramApiWebClient instagramApiWebClient;
 
     @Mock
-    private AbstractTokensSaver abstractTokensSaver;
+    private AbstractTokenSaver abstractTokenSaver;
 
     @InjectMocks
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
@@ -39,7 +39,7 @@ class InstagramAccessTokenFlowTests {
             .thenReturn("appSecret");
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
-        when(abstractTokensSaver.save(any(), anyString()))
+        when(abstractTokenSaver.save(any(), anyString()))
             .thenReturn(Mono.just(""));
 
         Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");

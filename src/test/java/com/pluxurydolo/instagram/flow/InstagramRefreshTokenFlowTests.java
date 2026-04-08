@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.security.flow;
+package com.pluxurydolo.instagram.flow;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
