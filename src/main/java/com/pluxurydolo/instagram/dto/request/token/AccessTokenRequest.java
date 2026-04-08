@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.dto.request.security;
+package com.pluxurydolo.instagram.dto.request.token;
 
 public record AccessTokenRequest(
     String appId,

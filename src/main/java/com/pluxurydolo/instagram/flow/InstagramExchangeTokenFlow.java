@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.flow;
 
-import com.pluxurydolo.instagram.dto.request.security.ExchangeTokenRequest;
+import com.pluxurydolo.instagram.dto.request.token.ExchangeTokenRequest;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;

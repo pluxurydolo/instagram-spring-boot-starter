@@ -1,7 +1,7 @@
 package com.pluxurydolo.instagram.web;
 
-import com.pluxurydolo.instagram.dto.request.security.AccessTokenRequest;
-import com.pluxurydolo.instagram.dto.request.security.ExchangeTokenRequest;
+import com.pluxurydolo.instagram.dto.request.token.AccessTokenRequest;
+import com.pluxurydolo.instagram.dto.request.token.ExchangeTokenRequest;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.exception.InstagramAccessTokenFlowException;
 import com.pluxurydolo.instagram.exception.InstagramExchangeTokenFlowException;
