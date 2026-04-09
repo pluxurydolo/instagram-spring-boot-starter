@@ -8,7 +8,11 @@ import com.pluxurydolo.instagram.exception.InstagramExchangeTokenFlowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
+
+import java.net.URI;
+import java.util.function.Function;
 
 public class InstagramApiWebClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(InstagramApiWebClient.class);
@@ -27,15 +31,16 @@ public class InstagramApiWebClient {
         String redirectUri = request.redirectUri();
         String code = request.code();
 
+        Function<UriBuilder, URI> uri = uriBuilder -> uriBuilder
+            .path("/v20.0/oauth/access_token")
+            .queryParam("client_id", appId)
+            .queryParam("client_secret", appSecret)
+            .queryParam("redirect_uri", redirectUri)
+            .queryParam("code", code)
+            .build();
+
         return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                .path("/v20.0/oauth/access_token")
-                .queryParam("client_id", appId)
-                .queryParam("client_secret", appSecret)
-                .queryParam("redirect_uri", redirectUri)
-                .queryParam("code", code)
-                .build()
-            )
+            .uri(uri)
             .retrieve()
             .bodyToMono(TokenResponse.class)
             .doOnSuccess(_ -> LOGGER.info("kyvk [instagram-starter] Exchange token успешно получен"))
@@ -50,15 +55,16 @@ public class InstagramApiWebClient {
         String appSecret = request.appSecret();
         String exchangeToken = request.exchangeToken();
 
+        Function<UriBuilder, URI> uri = uriBuilder -> uriBuilder
+            .path("/v20.0/oauth/access_token")
+            .queryParam("grant_type", "fb_exchange_token")
+            .queryParam("client_id", appId)
+            .queryParam("client_secret", appSecret)
+            .queryParam("fb_exchange_token", exchangeToken)
+            .build();
+
         return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                .path("/v20.0/oauth/access_token")
-                .queryParam("grant_type", "fb_exchange_token")
-                .queryParam("client_id", appId)
-                .queryParam("client_secret", appSecret)
-                .queryParam("fb_exchange_token", exchangeToken)
-                .build()
-            )
+            .uri(uri)
             .retrieve()
             .bodyToMono(TokenResponse.class)
             .doOnSuccess(_ -> LOGGER.info("nqsx [instagram-starter] Access token успешно получен"))

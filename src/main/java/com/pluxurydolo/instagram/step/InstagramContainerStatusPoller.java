@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.step;
 
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
-import com.pluxurydolo.instagram.properties.PollingProperties;
+import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
@@ -18,20 +18,20 @@ public class InstagramContainerStatusPoller {
     private static final Logger LOGGER = LoggerFactory.getLogger(InstagramContainerStatusPoller.class);
 
     private final InstagramUploadWebClient instagramUploadWebClient;
-    private final PollingProperties pollingProperties;
+    private final InstagramPollingProperties instagramPollingProperties;
 
     public InstagramContainerStatusPoller(
         InstagramUploadWebClient instagramUploadWebClient,
-        PollingProperties pollingProperties
+        InstagramPollingProperties instagramPollingProperties
     ) {
         this.instagramUploadWebClient = instagramUploadWebClient;
-        this.pollingProperties = pollingProperties;
+        this.instagramPollingProperties = instagramPollingProperties;
     }
 
     public Mono<String> poll(ContainerStatusRequest request) {
-        Duration delay = pollingProperties.delay();
+        Duration delay = instagramPollingProperties.delay();
         long delaySeconds = delay.getSeconds();
-        int maxRepeat = pollingProperties.maxRepeat();
+        int maxRepeat = instagramPollingProperties.maxRepeat();
 
         String containerId = request.containerId();
         String accessToken = request.accessToken();

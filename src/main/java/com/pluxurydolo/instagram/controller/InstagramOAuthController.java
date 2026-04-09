@@ -1,11 +1,11 @@
 package com.pluxurydolo.instagram.controller;
 
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.resilience.annotation.ConcurrencyLimit;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.resilience.annotation.ConcurrencyLimit.ThrottlePolicy.REJECT;
@@ -20,8 +20,8 @@ public class InstagramOAuthController {
 
     @GetMapping("${instagram.login.url}")
     @ConcurrencyLimit(limit = 5, policy = REJECT)
-    public Mono<ResponseEntity<Void>> login() {
-        return instagramOAuthService.login();
+    public Mono<Void> login(ServerWebExchange serverWebExchange) {
+        return instagramOAuthService.login(serverWebExchange);
     }
 
     @GetMapping("${instagram.redirect.url}")

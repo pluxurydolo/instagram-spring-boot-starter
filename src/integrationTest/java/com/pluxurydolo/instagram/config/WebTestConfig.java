@@ -16,12 +16,12 @@ public class WebTestConfig {
 
     @Bean
     public InstagramApiWebClient instagramApiWebClient() {
-        InstagramApiWebClient mock = mock(InstagramApiWebClient.class);
+        InstagramApiWebClient instagramApiWebClient = mock(InstagramApiWebClient.class);
 
-        when(mock.getAccessToken(any()))
+        when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
 
-        return mock;
+        return instagramApiWebClient;
     }
 
     @Bean

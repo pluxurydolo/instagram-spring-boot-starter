@@ -7,12 +7,14 @@ import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
 import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
 import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.net.URI;
 
+import static java.net.URI.create;
 import static org.springframework.http.HttpStatus.FOUND;
 
 public class InstagramOAuthService {
@@ -36,15 +38,15 @@ public class InstagramOAuthService {
         this.abstractTokenRetriever = abstractTokenRetriever;
     }
 
-    public Mono<ResponseEntity<Void>> login() {
-        String authUrl = instagramAuthorizationCodeFlow.getAuthorizationUrl();
-        URI uri = URI.create(authUrl);
+    public Mono<Void> login(ServerWebExchange serverWebExchange) {
+        String authorizationUrl = instagramAuthorizationCodeFlow.getAuthorizationUrl();
+        URI uri = create(authorizationUrl);
 
-        ResponseEntity<Void> responseEntity = ResponseEntity.status(FOUND)
-            .location(uri)
-            .build();
+        ServerHttpResponse response = serverWebExchange.getResponse();
+        response.setStatusCode(FOUND);
+        response.getHeaders().setLocation(uri);
 
-        return Mono.just(responseEntity);
+        return response.setComplete();
     }
 
     public Mono<String> callback(String code) {

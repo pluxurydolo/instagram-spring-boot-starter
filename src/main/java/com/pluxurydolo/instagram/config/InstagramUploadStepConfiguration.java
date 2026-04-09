@@ -1,7 +1,7 @@
 package com.pluxurydolo.instagram.config;
 
 import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.properties.PollingProperties;
+import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
@@ -67,9 +67,9 @@ public class InstagramUploadStepConfiguration {
     @Bean
     public InstagramContainerStatusPoller instagramImageContainerStatusPoller(
         InstagramUploadWebClient instagramUploadWebClient,
-        PollingProperties pollingProperties
+        InstagramPollingProperties instagramPollingProperties
     ) {
-        return new InstagramContainerStatusPoller(instagramUploadWebClient, pollingProperties);
+        return new InstagramContainerStatusPoller(instagramUploadWebClient, instagramPollingProperties);
     }
 
     @Bean

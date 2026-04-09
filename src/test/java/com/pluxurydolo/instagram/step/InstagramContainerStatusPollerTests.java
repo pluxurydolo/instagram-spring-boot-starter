@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.step;
 
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
-import com.pluxurydolo.instagram.properties.PollingProperties;
+import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,16 +24,16 @@ class InstagramContainerStatusPollerTests {
     private InstagramUploadWebClient instagramUploadWebClient;
 
     @Mock
-    private PollingProperties pollingProperties;
+    private InstagramPollingProperties instagramPollingProperties;
 
     @InjectMocks
     private InstagramContainerStatusPoller instagramContainerStatusPoller;
 
     @Test
     void testPoll() {
-        when(pollingProperties.delay())
+        when(instagramPollingProperties.delay())
             .thenReturn(Duration.ofSeconds(1));
-        when(pollingProperties.maxRepeat())
+        when(instagramPollingProperties.maxRepeat())
             .thenReturn(100);
         when(instagramUploadWebClient.getContainerStatus(anyString(), anyString()))
             .thenReturn(Mono.just(containerStatusResponse()));
@@ -47,9 +47,9 @@ class InstagramContainerStatusPollerTests {
 
     @Test
     void testPollWhenExceptionOccurred() {
-        when(pollingProperties.delay())
+        when(instagramPollingProperties.delay())
             .thenReturn(Duration.ofSeconds(1));
-        when(pollingProperties.maxRepeat())
+        when(instagramPollingProperties.maxRepeat())
             .thenReturn(100);
         when(instagramUploadWebClient.getContainerStatus(anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));

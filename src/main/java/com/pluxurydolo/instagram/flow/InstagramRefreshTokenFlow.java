@@ -9,7 +9,7 @@ public class InstagramRefreshTokenFlow {
         this.instagramAccessTokenFlow = instagramAccessTokenFlow;
     }
 
-    public Mono<String> refreshToken(String currentToken) {
-        return instagramAccessTokenFlow.getToken(currentToken);
+    public Mono<String> refreshToken(String accessToken) {
+        return instagramAccessTokenFlow.getToken(accessToken);
     }
 }

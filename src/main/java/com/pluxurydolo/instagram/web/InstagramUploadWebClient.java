@@ -9,8 +9,13 @@ import com.pluxurydolo.instagram.exception.InstagramImageContainerStatusExceptio
 import com.pluxurydolo.instagram.exception.InstagramPublishImageContainerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
 import reactor.core.publisher.Mono;
+
+import java.net.URI;
+import java.util.function.Function;
 
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
@@ -35,11 +40,13 @@ public class InstagramUploadWebClient {
         String userId = request.userId();
         String accessToken = request.accessToken();
 
+        BodyInserters.FormInserter<String> body = fromFormData("image_url", imageUrl)
+            .with("access_token", accessToken)
+            .with("caption", caption);
+
         return webClient.post()
             .uri("/v20.0/{userId}/media", userId)
-            .body(fromFormData("image_url", imageUrl)
-                .with("access_token", accessToken)
-                .with("caption", caption))
+            .body(body)
             .retrieve()
             .bodyToMono(ContainerResponse.class)
             .doOnSuccess(_ -> LOGGER.info("erhs [instagram-starter] Контейнер изображения {} успешно создан", imageUrl))
@@ -55,15 +62,17 @@ public class InstagramUploadWebClient {
         String userId = request.userId();
         String accessToken = request.accessToken();
 
+        BodyInserters.FormInserter<String> body = fromFormData("media_type", "REELS")
+            .with("video_url", videoUrl)
+            .with("access_token", accessToken)
+            .with("caption", caption)
+            .with("thumb_offset", "0")
+            .with("share_to_feed", "true");
+
         return webClient.post()
             .uri("/v20.0/{userId}/media", userId)
             .contentType(APPLICATION_FORM_URLENCODED)
-            .body(fromFormData("media_type", "REELS")
-                .with("video_url", videoUrl)
-                .with("access_token", accessToken)
-                .with("caption", caption)
-                .with("thumb_offset", "0")
-                .with("share_to_feed", "true"))
+            .body(body)
             .retrieve()
             .bodyToMono(ContainerResponse.class)
             .doOnSuccess(_ -> LOGGER.info("xznj [instagram-starter] Контейнер видео {} успешно создан", videoUrl))
@@ -78,10 +87,12 @@ public class InstagramUploadWebClient {
         String userId = request.userId();
         String accessToken = request.accessToken();
 
+        BodyInserters.FormInserter<String> body = fromFormData("creation_id", containerId)
+            .with("access_token", accessToken);
+
         return webClient.post()
             .uri("/v20.0/{userId}/media_publish", userId)
-            .body(fromFormData("creation_id", containerId)
-                .with("access_token", accessToken))
+            .body(body)
             .retrieve()
             .bodyToMono(ContainerResponse.class)
             .doOnSuccess(_ -> LOGGER.info("ynup [instagram-starter] Контейнер {} успешно опубликован", containerId))
@@ -92,12 +103,14 @@ public class InstagramUploadWebClient {
     }
 
     public Mono<ContainerStatusResponse> getContainerStatus(String containerId, String accessToken) {
+        Function<UriBuilder, URI> uri = uriBuilder -> uriBuilder
+            .path("/v20.0/{containerId}")
+            .queryParam("fields", "status_code,status")
+            .queryParam("access_token", accessToken)
+            .build(containerId);
+
         return webClient.get()
-            .uri(uriBuilder -> uriBuilder
-                .path("/v20.0/{containerId}")
-                .queryParam("fields", "status_code,status")
-                .queryParam("access_token", accessToken)
-                .build(containerId))
+            .uri(uri)
             .retrieve()
             .bodyToMono(ContainerStatusResponse.class)
             .doOnSuccess(_ -> LOGGER.info("jvkg [instagram-starter] Статус контейнера {} успешно получен", containerId))

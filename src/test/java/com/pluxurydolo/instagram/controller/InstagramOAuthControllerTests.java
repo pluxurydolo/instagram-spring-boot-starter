@@ -2,30 +2,33 @@ package com.pluxurydolo.instagram.controller;
 
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.ResponseEntity;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
-import java.net.URI;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.FOUND;
 import static reactor.test.StepVerifier.create;
 
+@ExtendWith(MockitoExtension.class)
 class InstagramOAuthControllerTests {
     private static final InstagramOAuthService OAUTH_SERVICE = mock(InstagramOAuthService.class);
     private static final InstagramOAuthController OAUTH_CONTROLLER = new InstagramOAuthController(OAUTH_SERVICE);
 
+    @Mock
+    private ServerWebExchange serverWebExchange;
+
     @Test
     void testLogin() {
-        when(OAUTH_SERVICE.login())
-            .thenReturn(Mono.just(responseEntity()));
+        when(OAUTH_SERVICE.login(serverWebExchange))
+            .thenReturn(Mono.empty());
 
-        Mono<ResponseEntity<Void>> result = OAUTH_CONTROLLER.login();
+        Mono<Void> result = OAUTH_CONTROLLER.login(serverWebExchange);
 
         create(result)
-            .expectNext(responseEntity())
             .verifyComplete();
     }
 
@@ -51,13 +54,5 @@ class InstagramOAuthControllerTests {
         create(result)
             .expectNext("")
             .verifyComplete();
-    }
-
-    private static ResponseEntity<Void> responseEntity() {
-        URI uri = URI.create("redirectUri");
-
-        return ResponseEntity.status(FOUND)
-            .location(uri)
-            .build();
     }
 }
