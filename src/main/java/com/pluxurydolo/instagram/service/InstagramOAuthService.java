@@ -58,7 +58,7 @@ public class InstagramOAuthService {
 
     public Mono<String> refreshToken() {
         return abstractTokenRetriever.retrieve()
-            .map(Tokens::exchangeToken)
+            .map(Tokens::accessToken)
             .flatMap(instagramRefreshTokenFlow::refreshToken)
             .subscribeOn(Schedulers.boundedElastic());
     }
