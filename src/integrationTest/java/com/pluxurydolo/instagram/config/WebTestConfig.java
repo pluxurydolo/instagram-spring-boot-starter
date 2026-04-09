@@ -7,6 +7,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Mono;
 
+import java.time.Clock;
+
+import static java.time.Clock.systemUTC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,6 +30,11 @@ public class WebTestConfig {
     @Bean
     public InstagramUploadWebClient instagramUploadWebClient() {
         return mock(InstagramUploadWebClient.class);
+    }
+
+    @Bean
+    public Clock clock() {
+        return systemUTC();
     }
 
     private static TokenResponse tokenResponse() {

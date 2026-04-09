@@ -8,6 +8,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+import static java.time.Clock.systemUTC;
+
 @TestConfiguration
 public class TokensTestConfig {
 
@@ -29,7 +31,7 @@ public class TokensTestConfig {
 
     @Bean
     public AbstractTokenSaver abstractTokensSaver() {
-        return new AbstractTokenSaver() {
+        return new AbstractTokenSaver(systemUTC()) {
 
             @Override
             public Mono<String> saveTokens(Map<String, String> tokens) {
