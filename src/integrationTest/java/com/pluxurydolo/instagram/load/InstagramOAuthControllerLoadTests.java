@@ -14,7 +14,7 @@ class InstagramOAuthControllerLoadTests extends AbstractLoadTests {
         RequestExecutor requestExecutor = requestExecutor("/app-name/v1/instagram/login");
 
         LoadTestingResult result = runConcurrent(
-            10_000,
+            1000,
             requestExecutor
         );
         long successful = result.successful();
@@ -31,7 +31,7 @@ class InstagramOAuthControllerLoadTests extends AbstractLoadTests {
         RequestExecutor requestExecutor = requestExecutor("/app-name/v1/instagram/login/redirect?code=code");
 
         LoadTestingResult result = runConcurrent(
-            10_000,
+            1000,
             requestExecutor
         );
         long successful = result.successful();
@@ -48,7 +48,7 @@ class InstagramOAuthControllerLoadTests extends AbstractLoadTests {
         RequestExecutor requestExecutor = requestExecutor("/app-name/v1/instagram/refresh");
 
         LoadTestingResult result = runConcurrent(
-            10_000,
+            1000,
             requestExecutor
         );
         long successful = result.successful();

@@ -40,7 +40,7 @@ public abstract class AbstractLoadTests extends AbstractControllerIntegrationTes
             range(0, requestCount)
                 .forEach(_ -> executorService.submit(runnable));
 
-            doneSignal.await(5, SECONDS);
+            doneSignal.await(1, SECONDS);
 
             startSignal.countDown();
             executorService.shutdown();
