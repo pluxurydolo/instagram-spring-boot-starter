@@ -35,7 +35,7 @@ public class TokensTestConfig {
 
             @Override
             public Mono<String> saveTokens(Map<String, String> tokens) {
-                return Mono.just("");
+                return Mono.just("saveTokens");
             }
         };
     }

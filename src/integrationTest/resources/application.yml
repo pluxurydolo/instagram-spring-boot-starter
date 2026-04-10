@@ -8,7 +8,7 @@ instagram:
   login:
     url: /app-name/v1/instagram/login
   redirect:
-    uri: http://localhost:8888$/app-name/v1/instagram/login
+    uri: http://localhost:8888$/app-name/v1/instagram/login/redirect
     url: /app-name/v1/instagram/login/redirect
   refresh:
     url: /app-name/v1/instagram/refresh

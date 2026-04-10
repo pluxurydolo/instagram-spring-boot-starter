@@ -21,6 +21,9 @@ public class WebTestConfig {
     public InstagramApiWebClient instagramApiWebClient() {
         InstagramApiWebClient instagramApiWebClient = mock(InstagramApiWebClient.class);
 
+        when(instagramApiWebClient.getExchangeToken(any()))
+            .thenReturn(Mono.just(tokenResponse()));
+
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
 
