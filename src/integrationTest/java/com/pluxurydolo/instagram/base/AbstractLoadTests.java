@@ -2,6 +2,8 @@ package com.pluxurydolo.instagram.base;
 
 import com.pluxurydolo.instagram.util.LoadTestingResult;
 import com.pluxurydolo.instagram.util.RequestExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatusCode;
 
 import java.util.List;
@@ -19,6 +21,8 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 
 public abstract class AbstractLoadTests extends AbstractControllerIntegrationTests {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLoadTests.class);
+
     protected LoadTestingResult runConcurrent(int requestCount, RequestExecutor requestExecutor) {
         CountDownLatch startSignal = new CountDownLatch(1);
         CountDownLatch doneSignal = new CountDownLatch(requestCount);
@@ -48,8 +52,11 @@ public abstract class AbstractLoadTests extends AbstractControllerIntegrationTes
 
             long success = countSuccessfulStatuses(statusCodes);
             long fail = countFailedStatuses(statusCodes);
+            LoadTestingResult result = new LoadTestingResult(success, fail);
 
-            return new LoadTestingResult(success, fail);
+            LOGGER.info("cmkp Результат нагрузочного тестирования: {}", result);
+
+            return result;
         } catch (InterruptedException _) {
             return new LoadTestingResult(0, 0);
         }

@@ -2,6 +2,7 @@ package com.pluxurydolo.instagram.filter;
 
 import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.properties.InstagramRateLimitProperties;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
@@ -11,8 +12,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.springframework.core.Ordered.HIGHEST_PRECEDENCE;
 import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 
+@Order(HIGHEST_PRECEDENCE)
 public class InstagramRateLimitFilter implements WebFilter {
     private final AtomicInteger requestCounter;
     private final InstagramProperties instagramProperties;
