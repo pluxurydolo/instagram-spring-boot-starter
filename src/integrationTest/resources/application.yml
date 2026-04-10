@@ -16,6 +16,8 @@ instagram:
       scheduler:
         cron: "0 0 0 * * SUN"
         zone: Europe/Moscow
+  rate-limit:
+    threshold: 5
 spring:
   main:
     allow-bean-definition-overriding: true

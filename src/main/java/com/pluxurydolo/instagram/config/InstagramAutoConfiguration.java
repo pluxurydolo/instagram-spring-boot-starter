@@ -1,7 +1,8 @@
 package com.pluxurydolo.instagram.config;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
+import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramRateLimitProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -11,7 +12,8 @@ import org.springframework.context.annotation.Import;
 @ConditionalOnProperty(prefix = "instagram", name = "enabled", havingValue = "true")
 @EnableConfigurationProperties({
     InstagramProperties.class,
-    InstagramPollingProperties.class
+    InstagramPollingProperties.class,
+    InstagramRateLimitProperties.class
 })
 @Import({
     InstagramOAuthConfiguration.class,
