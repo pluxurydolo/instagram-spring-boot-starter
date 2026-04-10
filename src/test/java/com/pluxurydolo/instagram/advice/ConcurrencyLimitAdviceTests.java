@@ -1,21 +1,45 @@
 package com.pluxurydolo.instagram.advice;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.web.server.ServerWebExchange;
 
+import java.net.URI;
 import java.time.Clock;
 import java.time.Instant;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 
+@ExtendWith(MockitoExtension.class)
 class ConcurrencyLimitAdviceTests {
     private static final ConcurrencyLimitAdvice ADVICE = new ConcurrencyLimitAdvice(clock());
 
+    @Mock
+    private ServerWebExchange serverWebExchange;
+
+    @Mock
+    private ServerHttpRequest serverHttpRequest;
+
+    @Mock
+    private URI uri;
+
     @Test
     void testHandleConcurrencyLimit() {
-        ProblemDetail result = ADVICE.handleConcurrencyLimit();
+        when(serverWebExchange.getRequest())
+            .thenReturn(serverHttpRequest);
+        when(serverHttpRequest.getURI())
+            .thenReturn(uri);
+        when(uri.getPath())
+            .thenReturn("path");
+
+        ProblemDetail result = ADVICE.handleConcurrencyLimit(serverWebExchange);
 
         assertThat(result)
             .usingRecursiveComparison()

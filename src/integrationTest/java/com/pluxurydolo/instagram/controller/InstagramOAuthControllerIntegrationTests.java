@@ -40,6 +40,6 @@ class InstagramOAuthControllerIntegrationTests extends AbstractControllerIntegra
     }
 
     private static String locationHeader() {
-        return "https://www.facebook.com/v20.0/dialog/oauth?client_id=1368522985037256&redirect_uri=http://localhost:8888$/app-name/v1/instagram/login/redirect&scope=instagram_basic,instagram_content_publish,business_management&response_type=code";
+        return "https://www.facebook.com/v20.0/dialog/oauth?client_id=id&redirect_uri=http://localhost:8888$/app-name/v1/instagram/login/redirect&scope=instagram_basic,instagram_content_publish,business_management&response_type=code";
     }
 }
