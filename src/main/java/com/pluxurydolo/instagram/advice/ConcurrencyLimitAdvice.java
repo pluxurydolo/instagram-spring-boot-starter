@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ProblemDetail;
 import org.springframework.resilience.InvocationRejectedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -26,7 +25,6 @@ public class ConcurrencyLimitAdvice {
     }
 
     @ExceptionHandler(InvocationRejectedException.class)
-    @ResponseStatus(TOO_MANY_REQUESTS)
     public ProblemDetail handleConcurrencyLimit(ServerWebExchange exchange) {
         String path = exchange.getRequest().getURI().getPath();
 
