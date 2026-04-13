@@ -30,7 +30,6 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
     "instagram.refresh.url=/app-name/v1/instagram/refresh",
     "instagram.refresh.token.scheduler.cron=0 0 0 * * SUN",
     "instagram.refresh.token.scheduler.zone=Europe/Moscow",
-    "instagram.rate-limit.threshold=5",
     "instagram.polling.max-repeat=20",
     "instagram.polling.delay=10s"
 })
