@@ -9,6 +9,7 @@ import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,11 +17,13 @@ import org.springframework.context.annotation.Configuration;
 public class InstagramWebConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramOAuthController instagramOAuthController(InstagramOAuthService instagramOAuthService) {
         return new InstagramOAuthController(instagramOAuthService);
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramOAuthService instagramOAuthService(
         InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow,
         InstagramExchangeTokenFlow instagramExchangeTokenFlow,
@@ -38,11 +41,13 @@ public class InstagramWebConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramApiWebClient instagramApiWebClient() {
         return new InstagramApiWebClient();
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramUploadWebClient instagramUploadWebClient() {
         return new InstagramUploadWebClient();
     }

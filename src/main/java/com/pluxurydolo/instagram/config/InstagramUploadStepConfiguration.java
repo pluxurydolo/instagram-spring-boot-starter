@@ -10,6 +10,7 @@ import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
 import com.pluxurydolo.instagram.step.video.InstagramVideoContainerCreator;
 import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 public class InstagramUploadStepConfiguration {
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramImageUploader instagramImageUploader(
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
@@ -34,6 +36,7 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramVideoUploader instagramVideoUploader(
         InstagramVideoContainerCreator instagramVideoContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
@@ -51,6 +54,7 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramImageContainerCreator instagramImageContainerCreator(
         InstagramUploadWebClient instagramUploadWebClient
     ) {
@@ -58,6 +62,7 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramVideoContainerCreator instagramVideoContainerCreator(
         InstagramUploadWebClient instagramUploadWebClient
     ) {
@@ -65,6 +70,7 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramContainerStatusPoller instagramImageContainerStatusPoller(
         InstagramUploadWebClient instagramUploadWebClient,
         InstagramPollingProperties instagramPollingProperties
@@ -73,6 +79,7 @@ public class InstagramUploadStepConfiguration {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public InstagramContainerPublisher instagramImageContainerPublisher(
         InstagramUploadWebClient instagramUploadWebClient
     ) {
