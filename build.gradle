@@ -111,6 +111,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter:$springBootVersion"
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-webflux-test'
 
     integrationTestImplementation 'org.springframework.boot:spring-boot-webtestclient'

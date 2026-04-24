@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
 import com.pluxurydolo.instagram.controller.InstagramOAuthController;
 import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;

@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
 import com.pluxurydolo.instagram.client.InstagramClient;
 import com.pluxurydolo.instagram.step.image.InstagramImageUploader;

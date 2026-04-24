@@ -75,14 +75,14 @@ class InstagramOAuthServiceTests {
     }
 
     @Test
-    void testCallback() {
+    void testRedirect() {
         when(instagramExchangeTokenFlow.getToken(anyString()))
             .thenReturn(Mono.just(tokenResponse()));
         when(instagramAccessTokenFlow.getToken(anyString()))
             .thenReturn(Mono.just(""));
 
 
-        Mono<String> result = instagramOAuthService.callback("code");
+        Mono<String> result = instagramOAuthService.redirect("code");
 
         create(result)
             .expectNext("")

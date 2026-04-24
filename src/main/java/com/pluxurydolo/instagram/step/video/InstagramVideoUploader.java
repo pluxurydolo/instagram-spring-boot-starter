@@ -7,7 +7,7 @@ import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
@@ -22,26 +22,26 @@ public class InstagramVideoUploader {
     private final InstagramContainerStatusPoller instagramContainerStatusPoller;
     private final InstagramContainerPublisher instagramContainerPublisher;
     private final AbstractTokenRetriever abstractTokenRetriever;
-    private final InstagramProperties instagramProperties;
+    private final InstagramAuthProperties instagramAuthProperties;
 
     public InstagramVideoUploader(
         InstagramVideoContainerCreator instagramVideoContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokenRetriever abstractTokenRetriever,
-        InstagramProperties instagramProperties
+        InstagramAuthProperties instagramAuthProperties
     ) {
         this.instagramVideoContainerCreator = instagramVideoContainerCreator;
         this.instagramContainerStatusPoller = instagramContainerStatusPoller;
         this.instagramContainerPublisher = instagramContainerPublisher;
         this.abstractTokenRetriever = abstractTokenRetriever;
-        this.instagramProperties = instagramProperties;
+        this.instagramAuthProperties = instagramAuthProperties;
     }
 
     public Mono<String> upload(UploadMediaRequest request) {
         String videoUrl = request.mediaUrl();
         String caption = request.caption();
-        String userId = instagramProperties.userId();
+        String userId = instagramAuthProperties.userId();
 
         return abstractTokenRetriever.retrieve()
             .map(Tokens::accessToken)

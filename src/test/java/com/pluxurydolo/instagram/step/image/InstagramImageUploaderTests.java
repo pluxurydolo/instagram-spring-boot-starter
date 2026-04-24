@@ -4,10 +4,11 @@ import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
-import com.pluxurydolo.instagram.properties.InstagramProperties;
-import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
+import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -35,15 +36,19 @@ class InstagramImageUploaderTests {
     private AbstractTokenRetriever abstractTokenRetriever;
 
     @Mock
-    private InstagramProperties instagramProperties;
+    private InstagramAuthProperties instagramAuthProperties;
 
     @InjectMocks
     private InstagramImageUploader instagramImageUploader;
 
+    @BeforeEach
+    void setUp() {
+        when(instagramAuthProperties.userId())
+            .thenReturn("userId");
+    }
+
     @Test
     void testUpload() {
-        when(instagramProperties.userId())
-            .thenReturn("userId");
         when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(tokens()));
         when(instagramImageContainerCreator.create(any()))
@@ -62,8 +67,6 @@ class InstagramImageUploaderTests {
 
     @Test
     void testUploadWhenExceptionOccurred() {
-        when(instagramProperties.userId())
-            .thenReturn("userId");
         when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(tokens()));
         when(instagramImageContainerCreator.create(any()))

@@ -37,11 +37,11 @@ class InstagramOAuthControllerTests {
     }
 
     @Test
-    void testCallback() {
-        when(instagramOAuthService.callback(anyString()))
+    void testRedirect() {
+        when(instagramOAuthService.redirect(anyString()))
             .thenReturn(Mono.just(""));
 
-        Mono<String> result = instagramOAuthController.callback("code");
+        Mono<String> result = instagramOAuthController.redirect("code");
 
         create(result)
             .expectNext("")

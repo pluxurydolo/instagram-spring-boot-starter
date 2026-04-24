@@ -1,6 +1,6 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
 import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
@@ -16,27 +16,27 @@ public class InstagramOAuthConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow(InstagramProperties instagramProperties) {
-        return new InstagramAuthorizationCodeFlow(instagramProperties);
+    public InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow(InstagramAuthProperties instagramAuthProperties) {
+        return new InstagramAuthorizationCodeFlow(instagramAuthProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public InstagramExchangeTokenFlow instagramExchangeTokenFlow(
         InstagramApiWebClient instagramApiWebClient,
-        InstagramProperties instagramProperties
+        InstagramAuthProperties instagramAuthProperties
     ) {
-        return new InstagramExchangeTokenFlow(instagramApiWebClient, instagramProperties);
+        return new InstagramExchangeTokenFlow(instagramApiWebClient, instagramAuthProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public InstagramAccessTokenFlow instagramAccessTokenFlow(
-        InstagramProperties instagramProperties,
+        InstagramAuthProperties instagramAuthProperties,
         InstagramApiWebClient instagramApiWebClient,
         AbstractTokenSaver abstractTokenSaver
     ) {
-        return new InstagramAccessTokenFlow(instagramProperties, instagramApiWebClient, abstractTokenSaver);
+        return new InstagramAccessTokenFlow(instagramAuthProperties, instagramApiWebClient, abstractTokenSaver);
     }
 
     @Bean

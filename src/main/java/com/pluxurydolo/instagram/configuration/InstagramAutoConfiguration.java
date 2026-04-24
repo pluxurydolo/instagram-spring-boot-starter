@@ -1,14 +1,16 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
+import com.pluxurydolo.instagram.properties.InstagramEndpointProperties;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
-import com.pluxurydolo.instagram.properties.InstagramProperties;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 
 @AutoConfiguration
 @EnableConfigurationProperties({
-    InstagramProperties.class,
+    InstagramAuthProperties.class,
+    InstagramEndpointProperties.class,
     InstagramPollingProperties.class
 })
 @Import({

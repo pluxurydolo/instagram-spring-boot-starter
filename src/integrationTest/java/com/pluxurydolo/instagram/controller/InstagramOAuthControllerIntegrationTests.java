@@ -32,7 +32,7 @@ class InstagramOAuthControllerIntegrationTests extends AbstractControllerIntegra
     @Test
     void testRefresh() {
         webTestClient.get()
-            .uri("/app-name/v1/instagram/refresh")
+            .uri("/app-name/v1/instagram/refresh-token")
             .exchange()
             .expectStatus().isOk()
             .expectBody(String.class)

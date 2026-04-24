@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.token.AbstractTokenSaver;
@@ -12,7 +12,7 @@ import java.util.Map;
 import static java.time.Clock.systemUTC;
 
 @TestConfiguration
-public class TokensTestConfig {
+public class TokensTestConfiguration {
 
     @Bean
     public AbstractTokenRetriever abstractTokensRetriever() {

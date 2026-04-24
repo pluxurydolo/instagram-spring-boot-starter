@@ -1,3 +1,21 @@
 spring:
   main:
     allow-bean-definition-overriding: true
+instagram:
+  auth:
+    app:
+      id: id
+      secret: secret
+    user-id: user-id
+    redirect-uri: http://localhost:8888$/app-name/v1/instagram/login/redirect
+  endpoint:
+    login: /app-name/v1/instagram/login
+    redirect: /app-name/v1/instagram/login/redirect
+    refresh-token: /app-name/v1/instagram/refresh-token
+  scheduler:
+    refresh-token:
+      cron: 0 0 0 * * SUN
+      zone: Europe/Moscow
+  polling:
+    max-repeat: 20
+    delay: 10s

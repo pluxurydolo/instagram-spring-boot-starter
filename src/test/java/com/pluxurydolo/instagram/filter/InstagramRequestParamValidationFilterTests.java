@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.filter;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramEndpointProperties;
 import com.pluxurydolo.instagram.validator.RequestParamValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ class InstagramRequestParamValidationFilterTests {
     private RequestParamValidator requestParamValidator;
 
     @Mock
-    private InstagramProperties instagramProperties;
+    private InstagramEndpointProperties instagramEndpointProperties;
 
     @Mock
     private ServerWebExchange serverWebExchange;
@@ -56,12 +56,12 @@ class InstagramRequestParamValidationFilterTests {
 
     @BeforeEach
     void setUp() {
-        when(instagramProperties.loginUrl())
+        when(instagramEndpointProperties.loginUrl())
             .thenReturn("loginUrl");
-        when(instagramProperties.redirectUrl())
+        when(instagramEndpointProperties.redirectUrl())
             .thenReturn("redirectUrl");
-        when(instagramProperties.refreshUrl())
-            .thenReturn("refreshUrl");
+        when(instagramEndpointProperties.refreshTokenUrl())
+            .thenReturn("refreshTokenUrl");
         when(serverWebExchange.getRequest())
             .thenReturn(serverHttpRequest);
         when(serverHttpRequest.getURI())
@@ -145,9 +145,9 @@ class InstagramRequestParamValidationFilterTests {
     }
 
     @Test
-    void testFilterWithRefreshPath() {
+    void testFilterWithRefreshTokenPath() {
         when(uri.getPath())
-            .thenReturn("refreshUrl");
+            .thenReturn("refreshTokenUrl");
         when(serverHttpRequest.getQueryParams())
             .thenReturn(queryParams());
         when(requestParamValidator.validate(anyString()))
@@ -162,9 +162,9 @@ class InstagramRequestParamValidationFilterTests {
     }
 
     @Test
-    void testFilterWithRefreshPathWhenValidationFailed() {
+    void testFilterWithRefreshTokenPathWhenValidationFailed() {
         when(uri.getPath())
-            .thenReturn("refreshUrl");
+            .thenReturn("refreshTokenUrl");
         when(serverHttpRequest.getQueryParams())
             .thenReturn(queryParams());
         when(requestParamValidator.validate(anyString()))

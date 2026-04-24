@@ -11,8 +11,8 @@ public class InstagramRefreshTokenScheduler {
     }
 
     @Scheduled(
-        cron = "${instagram.refresh.token.scheduler.cron}",
-        zone = "${instagram.refresh.token.scheduler.zone}"
+        cron = "${instagram.scheduler.refresh-token.cron}",
+        zone = "${instagram.scheduler.refresh-token.zone}"
     )
     public void schedule() {
         String jobName = getClass().getName();

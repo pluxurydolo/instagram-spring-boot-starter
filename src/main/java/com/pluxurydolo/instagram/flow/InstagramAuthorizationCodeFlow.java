@@ -1,19 +1,19 @@
 package com.pluxurydolo.instagram.flow;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 
 import static java.lang.String.format;
 
 public class InstagramAuthorizationCodeFlow {
-    private final InstagramProperties instagramProperties;
+    private final InstagramAuthProperties instagramAuthProperties;
 
-    public InstagramAuthorizationCodeFlow(InstagramProperties instagramProperties) {
-        this.instagramProperties = instagramProperties;
+    public InstagramAuthorizationCodeFlow(InstagramAuthProperties instagramAuthProperties) {
+        this.instagramAuthProperties = instagramAuthProperties;
     }
 
     public String getAuthorizationUrl() {
-        String appId = instagramProperties.appId();
-        String redirectUri = instagramProperties.redirectUri();
+        String appId = instagramAuthProperties.appId();
+        String redirectUri = instagramAuthProperties.redirectUri();
         String scope = "instagram_basic,instagram_content_publish,business_management";
         String responseType = "code";
 

@@ -18,19 +18,19 @@ public class InstagramOAuthController {
         this.instagramOAuthService = instagramOAuthService;
     }
 
-    @GetMapping("${instagram.login.url}")
+    @GetMapping("${instagram.endpoint.login}")
     @ConcurrencyLimit(limit = 1, policy = REJECT)
     public Mono<Void> login(ServerWebExchange serverWebExchange) {
         return instagramOAuthService.login(serverWebExchange);
     }
 
-    @GetMapping("${instagram.redirect.url}")
+    @GetMapping("${instagram.endpoint.redirect}")
     @ConcurrencyLimit(limit = 1, policy = REJECT)
-    public Mono<String> callback(@RequestParam("code") String code) {
-        return instagramOAuthService.callback(code);
+    public Mono<String> redirect(@RequestParam("code") String code) {
+        return instagramOAuthService.redirect(code);
     }
 
-    @GetMapping("${instagram.refresh.url}")
+    @GetMapping("${instagram.endpoint.refresh-token}")
     @ConcurrencyLimit(limit = 1, policy = REJECT)
     public Mono<String> refreshToken() {
         return instagramOAuthService.refreshToken();

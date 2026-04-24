@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @TestConfiguration
-public class WebTestConfig {
+public class WebTestConfiguration {
 
     @Bean
     public InstagramApiWebClient instagramApiWebClient() {

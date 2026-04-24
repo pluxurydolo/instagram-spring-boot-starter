@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.filter;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramEndpointProperties;
 import com.pluxurydolo.instagram.validator.RequestParamValidator;
 import com.pluxurydolo.instagram.validator.ValidationResult;
 import org.springframework.core.annotation.Order;
@@ -18,26 +18,26 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Order(HIGHEST_PRECEDENCE)
 public class InstagramRequestParamValidationFilter implements WebFilter {
     private final RequestParamValidator requestParamValidator;
-    private final InstagramProperties instagramProperties;
+    private final InstagramEndpointProperties instagramEndpointProperties;
 
     public InstagramRequestParamValidationFilter(
         RequestParamValidator requestParamValidator,
-        InstagramProperties instagramProperties
+        InstagramEndpointProperties instagramEndpointProperties
     ) {
         this.requestParamValidator = requestParamValidator;
-        this.instagramProperties = instagramProperties;
+        this.instagramEndpointProperties = instagramEndpointProperties;
     }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        String loginUrl = instagramProperties.loginUrl();
-        String redirectUrl = instagramProperties.redirectUrl();
-        String refreshUrl = instagramProperties.refreshUrl();
+        String loginUrl = instagramEndpointProperties.loginUrl();
+        String redirectUrl = instagramEndpointProperties.redirectUrl();
+        String refreshTokenUrl = instagramEndpointProperties.refreshTokenUrl();
 
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
 
-        if (!path.equals(loginUrl) && !path.equals(redirectUrl) && !path.equals(refreshUrl)) {
+        if (!path.equals(loginUrl) && !path.equals(redirectUrl) && !path.equals(refreshTokenUrl)) {
             return chain.filter(exchange);
         }
 

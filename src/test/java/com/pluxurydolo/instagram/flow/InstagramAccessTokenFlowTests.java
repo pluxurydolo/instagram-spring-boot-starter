@@ -1,9 +1,10 @@
 package com.pluxurydolo.instagram.flow;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenSaver;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +21,7 @@ import static reactor.test.StepVerifier.create;
 class InstagramAccessTokenFlowTests {
 
     @Mock
-    private InstagramProperties instagramProperties;
+    private InstagramAuthProperties instagramAuthProperties;
 
     @Mock
     private InstagramApiWebClient instagramApiWebClient;
@@ -31,12 +32,16 @@ class InstagramAccessTokenFlowTests {
     @InjectMocks
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
 
+    @BeforeEach
+    void setUp() {
+        when(instagramAuthProperties.appId())
+            .thenReturn("appId");
+        when(instagramAuthProperties.appSecret())
+            .thenReturn("appSecret");
+    }
+
     @Test
     void testGetToken() {
-        when(instagramProperties.appId())
-            .thenReturn("appId");
-        when(instagramProperties.appSecret())
-            .thenReturn("appSecret");
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
         when(abstractTokenSaver.save(any(), anyString()))
@@ -51,10 +56,6 @@ class InstagramAccessTokenFlowTests {
 
     @Test
     void testGetTokenWhenExceptionOccurred() {
-        when(instagramProperties.appId())
-            .thenReturn("appId");
-        when(instagramProperties.appSecret())
-            .thenReturn("appSecret");
         when(instagramApiWebClient.getAccessToken(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 

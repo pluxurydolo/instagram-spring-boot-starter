@@ -49,7 +49,7 @@ public class InstagramOAuthService {
         return response.setComplete();
     }
 
-    public Mono<String> callback(String code) {
+    public Mono<String> redirect(String code) {
         return instagramExchangeTokenFlow.getToken(code)
             .map(TokenResponse::accessToken)
             .flatMap(instagramAccessTokenFlow::getToken)

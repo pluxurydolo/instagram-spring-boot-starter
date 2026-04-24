@@ -1,0 +1,213 @@
+{
+  "properties": [
+    {
+      "name": "instagram.auth.app.id",
+      "type": "java.lang.String",
+      "description": "Instagram App Id.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramAuthProperties"
+    },
+    {
+      "name": "instagram.auth.app.secret",
+      "type": "java.lang.String",
+      "description": "Instagram App Secret.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramAuthProperties"
+    },
+    {
+      "name": "instagram.auth.user-id",
+      "type": "java.lang.String",
+      "description": "Instagram User Id.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramAuthProperties"
+    },
+    {
+      "name": "instagram.auth.redirect-uri",
+      "type": "java.lang.String",
+      "description": "URI редиректа после логина.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramAuthProperties"
+    },
+    {
+      "name": "instagram.endpoint.login",
+      "type": "java.lang.String",
+      "description": "Эндпоинт логина.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+    },
+    {
+      "name": "instagram.endpoint.redirect",
+      "type": "java.lang.String",
+      "description": "Эндпоинт редиректа после логина.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+    },
+    {
+      "name": "instagram.endpoint.refresh-token",
+      "type": "java.lang.String",
+      "description": "Эндпоинт для обновления токена.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+    },
+    {
+      "name": "instagram.polling.max-repeat",
+      "type": "java.lang.Integer",
+      "description": "Максимальное число попыток поллинга.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramPollingProperties"
+    },
+    {
+      "name": "instagram.polling.delay",
+      "type": "java.time.Duration",
+      "description": "Интервал поллинга.",
+      "sourceType": "com.pluxurydolo.instagram.properties.InstagramPollingProperties"
+    },
+    {
+      "name": "instagram.scheduler.refresh-token.cron",
+      "type": "java.lang.String",
+      "description": "Cron обновления токена."
+    },
+    {
+      "name": "instagram.scheduler.refresh-token.zone",
+      "type": "java.lang.String",
+      "description": "Временная зона выполнения cron по обновлению токена."
+    }
+  ],
+  "hints": [
+    {
+      "name": "instagram.auth.app.id",
+      "values": [
+        {
+          "value": "${INSTAGRAM_APP_ID}"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.auth.app.secret",
+      "values": [
+        {
+          "value": "${INSTAGRAM_APP_SECRET}"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.auth.user-id",
+      "values": [
+        {
+          "value": "${INSTAGRAM_USER_ID}"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.auth.redirect-uri",
+      "values": [
+        {
+          "value": "http://localhost:8888${instagram.redirect.url}"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.endpoint.login",
+      "values": [
+        {
+          "value": "/${spring.application.name}/v1/instagram/login"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.endpoint.redirect",
+      "values": [
+        {
+          "value": "/${spring.application.name}/v1/instagram/login/redirect"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.endpoint.refresh-token",
+      "values": [
+        {
+          "value": "/${spring.application.name}/v1/instagram/token/refresh"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.polling.max-repeat",
+      "values": [
+        {
+          "value": "20"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.polling.delay",
+      "values": [
+        {
+          "value": "10s"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.scheduler.refresh-token.cron",
+      "values": [
+        {
+          "value": "0 0 0 * * SUN"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    },
+    {
+      "name": "instagram.scheduler.refresh-token.zone",
+      "values": [
+        {
+          "value": "Europe/Moscow"
+        }
+      ],
+      "providers": [
+        {
+          "name": "any"
+        }
+      ]
+    }
+  ]
+}

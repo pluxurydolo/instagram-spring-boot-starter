@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
 import com.pluxurydolo.instagram.validator.RequestParamValidator;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import static com.pluxurydolo.instagram.validator.ValidationResult.SUCCESS;
 
 @TestConfiguration
-public class ValidatorTestConfig {
+public class ValidatorTestConfiguration {
 
     @Bean
     public RequestParamValidator requestParamValidator() {

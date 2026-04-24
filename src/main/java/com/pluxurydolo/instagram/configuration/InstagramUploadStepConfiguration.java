@@ -1,6 +1,6 @@
-package com.pluxurydolo.instagram.config;
+package com.pluxurydolo.instagram.configuration;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
@@ -24,14 +24,14 @@ public class InstagramUploadStepConfiguration {
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokenRetriever abstractTokenRetriever,
-        InstagramProperties instagramProperties
+        InstagramAuthProperties instagramAuthProperties
     ) {
         return new InstagramImageUploader(
             instagramImageContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
             abstractTokenRetriever,
-            instagramProperties
+            instagramAuthProperties
         );
     }
 
@@ -42,14 +42,14 @@ public class InstagramUploadStepConfiguration {
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokenRetriever abstractTokenRetriever,
-        InstagramProperties instagramProperties
+        InstagramAuthProperties instagramAuthProperties
     ) {
         return new InstagramVideoUploader(
             instagramVideoContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
             abstractTokenRetriever,
-            instagramProperties
+            instagramAuthProperties
         );
     }
 

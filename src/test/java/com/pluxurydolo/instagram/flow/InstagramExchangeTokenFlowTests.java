@@ -1,8 +1,9 @@
 package com.pluxurydolo.instagram.flow;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.web.InstagramApiWebClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,19 +22,23 @@ class InstagramExchangeTokenFlowTests {
     private InstagramApiWebClient instagramApiWebClient;
 
     @Mock
-    private InstagramProperties instagramProperties;
+    private InstagramAuthProperties instagramAuthProperties;
 
     @InjectMocks
     private InstagramExchangeTokenFlow instagramExchangeTokenFlow;
 
+    @BeforeEach
+    void setUp() {
+        when(instagramAuthProperties.appId())
+            .thenReturn("appId");
+        when(instagramAuthProperties.appSecret())
+            .thenReturn("appSecret");
+        when(instagramAuthProperties.redirectUri())
+            .thenReturn("redirectUri");
+    }
+
     @Test
     void testGetToken() {
-        when(instagramProperties.appId())
-            .thenReturn("appId");
-        when(instagramProperties.appSecret())
-            .thenReturn("appSecret");
-        when(instagramProperties.redirectUri())
-            .thenReturn("redirectUri");
         when(instagramApiWebClient.getExchangeToken(any()))
             .thenReturn(Mono.just(tokenResponse()));
 
@@ -46,12 +51,6 @@ class InstagramExchangeTokenFlowTests {
 
     @Test
     void testGetTokenWhenExceptionOccurred() {
-        when(instagramProperties.appId())
-            .thenReturn("appId");
-        when(instagramProperties.appSecret())
-            .thenReturn("appSecret");
-        when(instagramProperties.redirectUri())
-            .thenReturn("redirectUri");
         when(instagramApiWebClient.getExchangeToken(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 

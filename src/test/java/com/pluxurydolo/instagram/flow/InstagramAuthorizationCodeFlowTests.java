@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.flow;
 
-import com.pluxurydolo.instagram.properties.InstagramProperties;
+import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,16 +14,16 @@ import static org.mockito.Mockito.when;
 class InstagramAuthorizationCodeFlowTests {
 
     @Mock
-    private InstagramProperties instagramProperties;
+    private InstagramAuthProperties instagramAuthProperties;
 
     @InjectMocks
     private InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow;
 
     @Test
     void testGetAuthorizationUrl() {
-        when(instagramProperties.appId())
+        when(instagramAuthProperties.appId())
             .thenReturn("appId");
-        when(instagramProperties.redirectUri())
+        when(instagramAuthProperties.redirectUri())
             .thenReturn("redirectUri");
 
         String result = instagramAuthorizationCodeFlow.getAuthorizationUrl();
