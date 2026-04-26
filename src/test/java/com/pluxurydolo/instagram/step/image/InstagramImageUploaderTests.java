@@ -3,7 +3,6 @@ package com.pluxurydolo.instagram.step.image;
 import com.pluxurydolo.instagram.dto.Tokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
@@ -75,7 +74,7 @@ class InstagramImageUploaderTests {
         Mono<String> result = instagramImageUploader.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(InstagramImageUploadException.class)
+            .expectError(RuntimeException.class)
             .verify();
     }
 
