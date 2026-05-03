@@ -57,8 +57,7 @@ class InstagramContainerStatusPollerTests {
         Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
 
         create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
     }
 
     private static ContainerStatusRequest createContainerStatusRequest() {

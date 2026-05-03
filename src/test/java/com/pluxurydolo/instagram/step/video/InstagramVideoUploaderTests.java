@@ -72,8 +72,7 @@ class InstagramVideoUploaderTests {
         Mono<String> result = instagramVideoUploader.upload(uploadMediaRequest());
 
         create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
     }
 
     private static UploadMediaRequest uploadMediaRequest() {

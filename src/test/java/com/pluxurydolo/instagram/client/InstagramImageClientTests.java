@@ -1,6 +1,7 @@
 package com.pluxurydolo.instagram.client;
 
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
 import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,8 +43,7 @@ class InstagramImageClientTests {
         Mono<String> result = instagramImageClient.uploadImage(uploadMediaRequest());
 
         create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramImageUploadException.class));
     }
 
     private static UploadMediaRequest uploadMediaRequest() {

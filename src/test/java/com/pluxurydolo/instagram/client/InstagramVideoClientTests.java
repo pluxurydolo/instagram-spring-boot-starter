@@ -1,6 +1,7 @@
 package com.pluxurydolo.instagram.client;
 
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
 import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -42,8 +43,7 @@ class InstagramVideoClientTests {
         Mono<String> result = instagramVideoClient.uploadVideo(uploadMediaRequest());
 
         create(result)
-            .expectError(RuntimeException.class)
-            .verify();
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramVideoUploadException.class));
     }
 
     private static UploadMediaRequest uploadMediaRequest() {
