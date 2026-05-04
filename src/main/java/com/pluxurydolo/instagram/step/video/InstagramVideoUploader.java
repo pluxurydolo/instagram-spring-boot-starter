@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.step.video;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
@@ -39,7 +39,7 @@ public class InstagramVideoUploader {
         String userId = instagramAuthProperties.userId();
 
         return abstractTokenRetriever.retrieve()
-            .map(Tokens::accessToken)
+            .map(InstagramTokens::accessToken)
             .flatMap(accessToken -> uploadVideo(videoUrl, caption, userId, accessToken))
             .map(ContainerResponse::id);
     }

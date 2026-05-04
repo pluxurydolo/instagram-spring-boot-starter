@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.dto;
 
-public record Tokens(
+public record InstagramTokens(
     String exchangeToken,
     String accessToken
 ) {

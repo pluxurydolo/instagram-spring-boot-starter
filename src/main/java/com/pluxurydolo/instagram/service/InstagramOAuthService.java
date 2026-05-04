@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.service;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
@@ -58,7 +58,7 @@ public class InstagramOAuthService {
 
     public Mono<String> refreshToken() {
         return abstractTokenRetriever.retrieve()
-            .map(Tokens::accessToken)
+            .map(InstagramTokens::accessToken)
             .flatMap(instagramRefreshTokenFlow::refreshToken)
             .subscribeOn(Schedulers.boundedElastic());
     }

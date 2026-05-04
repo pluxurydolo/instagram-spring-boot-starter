@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.step.video;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
@@ -49,7 +49,7 @@ class InstagramVideoUploaderTests {
     @Test
     void testUpload() {
         when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(tokens()));
+            .thenReturn(Mono.just(instagramTokens()));
         when(instagramVideoContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
         when(instagramContainerStatusPoller.poll(any()))
@@ -79,8 +79,8 @@ class InstagramVideoUploaderTests {
         return new UploadMediaRequest("mediaUrl", "caption");
     }
 
-    private static Tokens tokens() {
-        return new Tokens("exchangeToken", "accessToken");
+    private static InstagramTokens instagramTokens() {
+        return new InstagramTokens("exchangeToken", "accessToken");
     }
 
     private static ContainerResponse containerResponse() {

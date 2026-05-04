@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.service;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
 import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
@@ -92,7 +92,7 @@ class InstagramOAuthServiceTests {
     @Test
     void testRefreshToken() {
         when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(tokens()));
+            .thenReturn(Mono.just(instagramTokens()));
         when(instagramRefreshTokenFlow.refreshToken(anyString()))
             .thenReturn(Mono.just(""));
 
@@ -107,7 +107,7 @@ class InstagramOAuthServiceTests {
         return new TokenResponse("accessToken", "tokenType", 1L);
     }
 
-    private static Tokens tokens() {
-        return new Tokens("exchangeToken", "accessToken");
+    private static InstagramTokens instagramTokens() {
+        return new InstagramTokens("exchangeToken", "accessToken");
     }
 }

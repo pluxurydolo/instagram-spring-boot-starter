@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.scheduler.handler;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
 import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
@@ -34,7 +34,7 @@ class InstagramRefreshTokenSchedulerHandlerTests {
     @Test
     void testHandle() {
         when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(tokens()));
+            .thenReturn(Mono.just(instagramTokens()));
         when(instagramRefreshTokenFlow.refreshToken(anyString()))
             .thenReturn(Mono.just(""));
         when(refreshTokenSchedulerHandlerHook.doAfter())
@@ -61,7 +61,7 @@ class InstagramRefreshTokenSchedulerHandlerTests {
             .verifyComplete();
     }
 
-    private static Tokens tokens() {
-        return new Tokens("exchangeTokens", "accessToken");
+    private static InstagramTokens instagramTokens() {
+        return new InstagramTokens("exchangeTokens", "accessToken");
     }
 }

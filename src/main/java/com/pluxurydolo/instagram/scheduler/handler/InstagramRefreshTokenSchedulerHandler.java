@@ -1,6 +1,6 @@
 package com.pluxurydolo.instagram.scheduler.handler;
 
-import com.pluxurydolo.instagram.dto.Tokens;
+import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
 import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
@@ -29,7 +29,7 @@ public class InstagramRefreshTokenSchedulerHandler {
         LOGGER.info("iezc Стартовала джоба {}", jobName);
 
         return abstractTokenRetriever.retrieve()
-            .map(Tokens::accessToken)
+            .map(InstagramTokens::accessToken)
             .flatMap(instagramRefreshTokenFlow::refreshToken)
             .flatMap(_ -> refreshTokenSchedulerHandlerHook.doAfter())
             .doOnSuccess(_ -> LOGGER.info("knhi Джоба {} успешно завершена", jobName))
