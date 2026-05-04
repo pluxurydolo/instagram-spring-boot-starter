@@ -28,19 +28,19 @@
       "name": "instagram.endpoint.login",
       "type": "java.lang.String",
       "description": "Эндпоинт логина.",
-      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+      "sourceType": "com.pluxurydolo.instagram.controller.InstagramOAuthController"
     },
     {
       "name": "instagram.endpoint.redirect",
       "type": "java.lang.String",
       "description": "Эндпоинт редиректа после логина.",
-      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+      "sourceType": "com.pluxurydolo.instagram.controller.InstagramOAuthController"
     },
     {
       "name": "instagram.endpoint.refresh-token",
       "type": "java.lang.String",
       "description": "Эндпоинт для обновления токена.",
-      "sourceType": "com.pluxurydolo.instagram.properties.InstagramEndpointProperties"
+      "sourceType": "com.pluxurydolo.instagram.controller.InstagramOAuthController"
     },
     {
       "name": "instagram.polling.max-repeat",
