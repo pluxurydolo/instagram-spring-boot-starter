@@ -1,9 +1,10 @@
-package com.pluxurydolo.instagram.step;
+package com.pluxurydolo.instagram.flow.upload;
 
-import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
+import com.pluxurydolo.instagram.dto.request.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
+import com.pluxurydolo.instagram.exception.InstagramImageContainerStatusException;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
-import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +22,7 @@ import static reactor.test.StepVerifier.create;
 class InstagramContainerStatusPollerTests {
 
     @Mock
-    private InstagramUploadWebClient instagramUploadWebClient;
+    private InstagramUploadHttpClient instagramUploadHttpClient;
 
     @Mock
     private InstagramPollingProperties instagramPollingProperties;
@@ -35,7 +36,7 @@ class InstagramContainerStatusPollerTests {
             .thenReturn(Duration.ofSeconds(1));
         when(instagramPollingProperties.maxRepeat())
             .thenReturn(100);
-        when(instagramUploadWebClient.getContainerStatus(anyString(), anyString()))
+        when(instagramUploadHttpClient.getContainerStatus(anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerStatusResponse()));
 
         Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
@@ -51,13 +52,13 @@ class InstagramContainerStatusPollerTests {
             .thenReturn(Duration.ofSeconds(1));
         when(instagramPollingProperties.maxRepeat())
             .thenReturn(100);
-        when(instagramUploadWebClient.getContainerStatus(anyString(), anyString()))
+        when(instagramUploadHttpClient.getContainerStatus(anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramImageContainerStatusException.class));
     }
 
     private static ContainerStatusRequest createContainerStatusRequest() {
