@@ -5,7 +5,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import ch.qos.logback.core.spi.AppenderAttachable;
 import com.pluxurydolo.instagram.base.AbstractIntegrationTests;
-import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

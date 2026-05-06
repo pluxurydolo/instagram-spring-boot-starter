@@ -3,7 +3,7 @@ package com.pluxurydolo.instagram.configuration;
 import com.pluxurydolo.instagram.scheduler.InstagramRefreshTokenScheduler;
 import com.pluxurydolo.instagram.scheduler.handler.InstagramRefreshTokenSchedulerHandler;
 import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
-import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
