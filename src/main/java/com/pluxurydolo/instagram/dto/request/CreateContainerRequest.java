@@ -1,4 +1,4 @@
-package com.pluxurydolo.instagram.dto.request.upload;
+package com.pluxurydolo.instagram.dto.request;
 
 public record CreateContainerRequest(
     String mediaUrl,
