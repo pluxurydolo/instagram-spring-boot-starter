@@ -1,14 +1,14 @@
-package com.pluxurydolo.instagram.step.video;
+package com.pluxurydolo.instagram.flow.upload.video;
 
 import com.pluxurydolo.instagram.dto.InstagramTokens;
-import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
-import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
-import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
-import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.ContainerStatusRequest;
+import com.pluxurydolo.instagram.dto.request.CreateContainerRequest;
+import com.pluxurydolo.instagram.dto.request.PublishContainerRequest;
+import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
-import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
-import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
+import com.pluxurydolo.instagram.flow.upload.InstagramContainerPublisher;
+import com.pluxurydolo.instagram.flow.upload.InstagramContainerStatusPoller;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import reactor.core.publisher.Mono;
 

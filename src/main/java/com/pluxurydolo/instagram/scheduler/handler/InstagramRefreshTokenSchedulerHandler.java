@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.scheduler.handler;
 
 import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
-import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

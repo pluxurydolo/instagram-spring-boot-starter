@@ -1,8 +1,8 @@
 package com.pluxurydolo.instagram.client;
 
-import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
 import com.pluxurydolo.instagram.exception.InstagramVideoUploadException;
-import com.pluxurydolo.instagram.step.video.InstagramVideoUploader;
+import com.pluxurydolo.instagram.flow.upload.video.InstagramVideoUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
