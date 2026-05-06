@@ -1,11 +1,11 @@
-package com.pluxurydolo.instagram.step.image;
+package com.pluxurydolo.instagram.flow.upload.image;
 
 import com.pluxurydolo.instagram.dto.InstagramTokens;
-import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
-import com.pluxurydolo.instagram.step.InstagramContainerPublisher;
-import com.pluxurydolo.instagram.step.InstagramContainerStatusPoller;
+import com.pluxurydolo.instagram.flow.upload.InstagramContainerPublisher;
+import com.pluxurydolo.instagram.flow.upload.InstagramContainerStatusPoller;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

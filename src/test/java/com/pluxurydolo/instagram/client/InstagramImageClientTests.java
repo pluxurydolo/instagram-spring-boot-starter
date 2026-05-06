@@ -1,8 +1,8 @@
 package com.pluxurydolo.instagram.client;
 
-import com.pluxurydolo.instagram.dto.request.upload.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
 import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
-import com.pluxurydolo.instagram.step.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.flow.upload.image.InstagramImageUploader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

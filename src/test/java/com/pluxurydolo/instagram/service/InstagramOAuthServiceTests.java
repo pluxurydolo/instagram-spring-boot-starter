@@ -2,10 +2,10 @@ package com.pluxurydolo.instagram.service;
 
 import com.pluxurydolo.instagram.dto.InstagramTokens;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.flow.InstagramAccessTokenFlow;
-import com.pluxurydolo.instagram.flow.InstagramAuthorizationCodeFlow;
-import com.pluxurydolo.instagram.flow.InstagramExchangeTokenFlow;
-import com.pluxurydolo.instagram.flow.InstagramRefreshTokenFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramAccessTokenFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramAuthorizationCodeFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramExchangeTokenFlow;
+import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
