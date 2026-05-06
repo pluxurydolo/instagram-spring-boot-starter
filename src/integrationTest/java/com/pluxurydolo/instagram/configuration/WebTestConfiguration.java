@@ -3,13 +3,12 @@ package com.pluxurydolo.instagram.configuration;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.web.InstagramApiWebClient;
-import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import com.pluxurydolo.instagram.web.InstagramApiHttpClient;
+import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,27 +17,27 @@ import static org.mockito.Mockito.when;
 public class WebTestConfiguration {
 
     @Bean
-    public InstagramApiWebClient instagramApiWebClient() {
-        InstagramApiWebClient mock = mock(InstagramApiWebClient.class);
+    public InstagramApiHttpClient instagramApiHttpClient() {
+        InstagramApiHttpClient mock = mock(InstagramApiHttpClient.class);
 
-        when(mock.getExchangeToken(any()))
+        when(mock.getExchangeToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(tokenResponse()));
-        when(mock.getAccessToken(any()))
+        when(mock.getAccessToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(tokenResponse()));
         return mock;
     }
 
     @Bean
-    public InstagramUploadWebClient instagramUploadWebClient() {
-        InstagramUploadWebClient mock = mock(InstagramUploadWebClient.class);
+    public InstagramUploadHttpClient instagramUploadHttpClient() {
+        InstagramUploadHttpClient mock = mock(InstagramUploadHttpClient.class);
 
-        when(mock.createImageContainer(any()))
+        when(mock.createImageContainer(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerResponse()));
-        when(mock.createVideoContainer(any()))
+        when(mock.createVideoContainer(anyString(), anyString(), anyString(), anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerResponse()));
-        when(mock.publishContainer(any()))
+        when(mock.publishContainer(anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerResponse()));
-        when(mock.getContainerStatus(anyString(), anyString()))
+        when(mock.getContainerStatus(anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerStatusResponse()));
 
         return mock;
