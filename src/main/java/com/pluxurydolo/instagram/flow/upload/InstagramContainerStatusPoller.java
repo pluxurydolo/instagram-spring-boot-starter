@@ -1,9 +1,10 @@
-package com.pluxurydolo.instagram.step;
+package com.pluxurydolo.instagram.flow.upload;
 
-import com.pluxurydolo.instagram.dto.request.upload.ContainerStatusRequest;
+import com.pluxurydolo.instagram.dto.request.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
+import com.pluxurydolo.instagram.exception.InstagramImageContainerStatusException;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
-import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,14 +18,14 @@ import java.util.function.Function;
 public class InstagramContainerStatusPoller {
     private static final Logger LOGGER = LoggerFactory.getLogger(InstagramContainerStatusPoller.class);
 
-    private final InstagramUploadWebClient instagramUploadWebClient;
+    private final InstagramUploadHttpClient instagramUploadHttpClient;
     private final InstagramPollingProperties instagramPollingProperties;
 
     public InstagramContainerStatusPoller(
-        InstagramUploadWebClient instagramUploadWebClient,
+        InstagramUploadHttpClient instagramUploadHttpClient,
         InstagramPollingProperties instagramPollingProperties
     ) {
-        this.instagramUploadWebClient = instagramUploadWebClient;
+        this.instagramUploadHttpClient = instagramUploadHttpClient;
         this.instagramPollingProperties = instagramPollingProperties;
     }
 
@@ -48,9 +49,15 @@ public class InstagramContainerStatusPoller {
     }
 
     private Mono<String> validateContainerStatus(String containerId, String accessToken) {
-        return instagramUploadWebClient.getContainerStatus(containerId, accessToken)
+        String fields = "status_code,status";
+
+        return instagramUploadHttpClient.getContainerStatus(containerId, fields, accessToken)
             .map(ContainerStatusResponse::statusCode)
             .doOnNext(status -> LOGGER.info("qsfx [instagram-starter] Статус контейнера: {}", status))
+            .onErrorResume(throwable -> {
+                LOGGER.error("ykyn [instagram-starter] Произошла ошибка при проверке статуса контейнера {}", containerId);
+                return Mono.error(new InstagramImageContainerStatusException(throwable));
+            })
             .filter("FINISHED"::equals);
     }
 }

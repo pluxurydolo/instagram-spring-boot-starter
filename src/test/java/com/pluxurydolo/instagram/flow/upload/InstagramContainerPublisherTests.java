@@ -1,8 +1,9 @@
-package com.pluxurydolo.instagram.step;
+package com.pluxurydolo.instagram.flow.upload;
 
-import com.pluxurydolo.instagram.dto.request.upload.PublishContainerRequest;
+import com.pluxurydolo.instagram.dto.request.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import com.pluxurydolo.instagram.exception.InstagramPublishImageContainerException;
+import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
@@ -18,14 +19,14 @@ import static reactor.test.StepVerifier.create;
 class InstagramContainerPublisherTests {
 
     @Mock
-    private InstagramUploadWebClient instagramUploadWebClient;
+    private InstagramUploadHttpClient instagramUploadHttpClient;
 
     @InjectMocks
     private InstagramContainerPublisher instagramContainerPublisher;
 
     @Test
     void testPublish() {
-        when(instagramUploadWebClient.publishContainer(any()))
+        when(instagramUploadHttpClient.publishContainer(anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerResponse()));
 
         Mono<ContainerResponse> result = instagramContainerPublisher.publish(publishContainerRequest());
@@ -37,13 +38,13 @@ class InstagramContainerPublisherTests {
 
     @Test
     void testPublishWhenExceptionOccurred() {
-        when(instagramUploadWebClient.publishContainer(any()))
+        when(instagramUploadHttpClient.publishContainer(anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<ContainerResponse> result = instagramContainerPublisher.publish(publishContainerRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramPublishImageContainerException.class));
     }
 
     private static PublishContainerRequest publishContainerRequest() {
