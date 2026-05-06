@@ -1,9 +1,10 @@
-package com.pluxurydolo.instagram.flow;
+package com.pluxurydolo.instagram.flow.oauth;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
+import com.pluxurydolo.instagram.exception.InstagramAccessTokenFlowException;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenSaver;
-import com.pluxurydolo.instagram.web.InstagramApiWebClient;
+import com.pluxurydolo.instagram.web.InstagramApiHttpClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,7 @@ class InstagramAccessTokenFlowTests {
     private InstagramAuthProperties instagramAuthProperties;
 
     @Mock
-    private InstagramApiWebClient instagramApiWebClient;
+    private InstagramApiHttpClient instagramApiHttpClient;
 
     @Mock
     private AbstractTokenSaver abstractTokenSaver;
@@ -42,7 +43,7 @@ class InstagramAccessTokenFlowTests {
 
     @Test
     void testGetToken() {
-        when(instagramApiWebClient.getAccessToken(any()))
+        when(instagramApiHttpClient.getAccessToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(tokenResponse()));
         when(abstractTokenSaver.save(any(), anyString()))
             .thenReturn(Mono.just(""));
@@ -56,13 +57,13 @@ class InstagramAccessTokenFlowTests {
 
     @Test
     void testGetTokenWhenExceptionOccurred() {
-        when(instagramApiWebClient.getAccessToken(any()))
+        when(instagramApiHttpClient.getAccessToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramAccessTokenFlowException.class));
     }
 
     private static TokenResponse tokenResponse() {
