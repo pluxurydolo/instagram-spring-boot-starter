@@ -1,8 +1,9 @@
-package com.pluxurydolo.instagram.step.image;
+package com.pluxurydolo.instagram.flow.upload.image;
 
-import com.pluxurydolo.instagram.dto.request.upload.CreateContainerRequest;
+import com.pluxurydolo.instagram.dto.request.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.web.InstagramUploadWebClient;
+import com.pluxurydolo.instagram.exception.InstagramCreateImageContainerException;
+import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
@@ -18,14 +19,14 @@ import static reactor.test.StepVerifier.create;
 class InstagramImageContainerCreatorTests {
 
     @Mock
-    private InstagramUploadWebClient instagramUploadWebClient;
+    private InstagramUploadHttpClient instagramUploadHttpClient;
 
     @InjectMocks
     private InstagramImageContainerCreator instagramImageContainerCreator;
 
     @Test
     void testCreate() {
-        when(instagramUploadWebClient.createImageContainer(any()))
+        when(instagramUploadHttpClient.createImageContainer(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(containerResponse()));
 
         Mono<ContainerResponse> result = instagramImageContainerCreator.create(createContainerRequest());
@@ -37,13 +38,13 @@ class InstagramImageContainerCreatorTests {
 
     @Test
     void testCreateWhenExceptionOccurred() {
-        when(instagramUploadWebClient.createImageContainer(any()))
+        when(instagramUploadHttpClient.createImageContainer(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
         Mono<ContainerResponse> result = instagramImageContainerCreator.create(createContainerRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramCreateImageContainerException.class));
     }
 
     private static CreateContainerRequest createContainerRequest() {
