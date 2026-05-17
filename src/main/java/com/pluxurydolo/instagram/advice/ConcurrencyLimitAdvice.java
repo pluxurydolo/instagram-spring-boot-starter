@@ -31,7 +31,7 @@ public class ConcurrencyLimitAdvice {
         String timestamp = now(clock)
             .toString();
 
-        LOGGER.warn("bhyt Превышен лимит запросов по пути {} {}", path, timestamp);
+        LOGGER.warn("bhyt [instagram-starter] Превышен лимит запросов по пути {} {}", path, timestamp);
 
         ProblemDetail problemDetail = forStatusAndDetail(TOO_MANY_REQUESTS, "Лимит запросов исчерпан");
         problemDetail.setTitle("Too Many Requests");

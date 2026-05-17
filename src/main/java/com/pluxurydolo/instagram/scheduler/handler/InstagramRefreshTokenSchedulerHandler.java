@@ -26,15 +26,15 @@ public class InstagramRefreshTokenSchedulerHandler {
     }
 
     public Mono<String> handle(String jobName) {
-        LOGGER.info("iezc Стартовала джоба {}", jobName);
+        LOGGER.info("iezc [instagram-starter] Стартовала джоба {}", jobName);
 
         return abstractTokenRetriever.retrieve()
             .map(InstagramTokens::accessToken)
             .flatMap(instagramRefreshTokenFlow::refreshToken)
             .flatMap(_ -> refreshTokenSchedulerHandlerHook.doAfter())
-            .doOnSuccess(_ -> LOGGER.info("knhi Джоба {} успешно завершена", jobName))
+            .doOnSuccess(_ -> LOGGER.info("knhi [instagram-starter] Джоба {} успешно завершена", jobName))
             .onErrorResume(throwable -> {
-                LOGGER.error("aebc Джоба {} успешно завершена", jobName);
+                LOGGER.error("aebc [instagram-starter] Джоба {} успешно завершена", jobName);
                 return refreshTokenSchedulerHandlerHook.handleException(throwable, jobName);
             });
     }
