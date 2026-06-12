@@ -12,8 +12,10 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -43,7 +45,7 @@ class InstagramAuthorizationCodeFlowTests {
     }
 
     @Test
-    void testGetAuthorizationUri() {
+    void testGetResponse() {
         doNothing()
             .when(httpHeaders).setLocation(any());
         when(serverWebExchange.getResponse())
@@ -57,5 +59,16 @@ class InstagramAuthorizationCodeFlowTests {
 
         assertThat(result)
             .isEqualTo(serverHttpResponse);
+    }
+
+    @Test
+    void testGetResponseWhenExceptionOccurred() {
+        doThrow(RuntimeException.class)
+            .when(serverWebExchange).getResponse();
+
+        assertThrows(
+            RuntimeException.class,
+            () -> instagramAuthorizationCodeFlow.getResponse(serverWebExchange)
+        );
     }
 }
