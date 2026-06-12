@@ -1,7 +1,7 @@
-package com.pluxurydolo.instagram.flow.upload.video;
+package com.pluxurydolo.instagram.flow.upload.image;
 
 import com.pluxurydolo.instagram.dto.InstagramTokens;
-import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.PublishMediaRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.flow.upload.InstagramContainerPublisher;
@@ -20,10 +20,10 @@ import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
 @ExtendWith(MockitoExtension.class)
-class InstagramVideoUploaderTests {
+class InstagramImagePublisherTests {
 
     @Mock
-    private InstagramVideoContainerCreator instagramVideoContainerCreator;
+    private InstagramImageContainerCreator instagramImageContainerCreator;
 
     @Mock
     private InstagramContainerStatusPoller instagramContainerStatusPoller;
@@ -38,7 +38,7 @@ class InstagramVideoUploaderTests {
     private InstagramAuthProperties instagramAuthProperties;
 
     @InjectMocks
-    private InstagramVideoUploader instagramVideoUploader;
+    private InstagramImagePublisher instagramImagePublisher;
 
     @BeforeEach
     void setUp() {
@@ -47,17 +47,17 @@ class InstagramVideoUploaderTests {
     }
 
     @Test
-    void testUpload() {
+    void testPublish() {
         when(abstractTokenRetriever.retrieve())
             .thenReturn(Mono.just(instagramTokens()));
-        when(instagramVideoContainerCreator.create(any()))
+        when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.just(containerResponse()));
         when(instagramContainerStatusPoller.poll(any()))
             .thenReturn(Mono.just(""));
         when(instagramContainerPublisher.publish(any()))
             .thenReturn(Mono.just(containerResponse()));
 
-        Mono<String> result = instagramVideoUploader.upload(uploadMediaRequest());
+        Mono<String> result = instagramImagePublisher.publish(publishMediaRequest());
 
         create(result)
             .expectNext("id")
@@ -65,18 +65,20 @@ class InstagramVideoUploaderTests {
     }
 
     @Test
-    void testUploadWhenExceptionOccurred() {
+    void testPublishWhenExceptionOccurred() {
         when(abstractTokenRetriever.retrieve())
+            .thenReturn(Mono.just(instagramTokens()));
+        when(instagramImageContainerCreator.create(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<String> result = instagramVideoUploader.upload(uploadMediaRequest());
+        Mono<String> result = instagramImagePublisher.publish(publishMediaRequest());
 
         create(result)
             .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
     }
 
-    private static UploadMediaRequest uploadMediaRequest() {
-        return new UploadMediaRequest("mediaUrl", "caption");
+    private static PublishMediaRequest publishMediaRequest() {
+        return new PublishMediaRequest("mediaUrl", "caption");
     }
 
     private static InstagramTokens instagramTokens() {

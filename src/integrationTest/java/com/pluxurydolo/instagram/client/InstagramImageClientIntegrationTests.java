@@ -5,7 +5,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import ch.qos.logback.core.spi.AppenderAttachable;
 import com.pluxurydolo.instagram.base.AbstractIntegrationTests;
-import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
+import com.pluxurydolo.instagram.dto.request.PublishMediaRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,10 +24,10 @@ class InstagramImageClientIntegrationTests extends AbstractIntegrationTests {
     private InstagramImageClient instagramImageClient;
 
     @Test
-    void testUploadImage() {
+    void testPublishImage() {
         List<ILoggingEvent> logs = listAppender().list;
 
-        instagramImageClient.uploadImage(uploadMediaRequest())
+        instagramImageClient.publishImage(publishMediaRequest())
             .subscribe();
 
         await().atMost(Duration.ofSeconds(5))
@@ -47,7 +47,7 @@ class InstagramImageClientIntegrationTests extends AbstractIntegrationTests {
         return listAppender;
     }
 
-    private static UploadMediaRequest  uploadMediaRequest() {
-        return new UploadMediaRequest("mediaUrl", "caption");
+    private static PublishMediaRequest publishMediaRequest() {
+        return new PublishMediaRequest("mediaUrl", "caption");
     }
 }

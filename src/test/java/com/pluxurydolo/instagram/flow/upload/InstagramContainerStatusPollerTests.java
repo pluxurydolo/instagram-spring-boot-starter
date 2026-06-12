@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.flow.upload;
 
 import com.pluxurydolo.instagram.dto.request.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
-import com.pluxurydolo.instagram.exception.InstagramImageContainerStatusException;
+import com.pluxurydolo.instagram.exception.InstagramContainerStatusException;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ class InstagramContainerStatusPollerTests {
         Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramImageContainerStatusException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramContainerStatusException.class));
     }
 
     private static ContainerStatusRequest createContainerStatusRequest() {

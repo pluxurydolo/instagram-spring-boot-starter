@@ -15,12 +15,12 @@ import static org.springframework.http.HttpStatus.TOO_MANY_REQUESTS;
 import static org.springframework.http.ProblemDetail.forStatusAndDetail;
 
 @RestControllerAdvice
-public class ConcurrencyLimitAdvice {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrencyLimitAdvice.class);
+public class InstagramConcurrencyLimitAdvice {
+    private static final Logger LOGGER = LoggerFactory.getLogger(InstagramConcurrencyLimitAdvice.class);
 
     private final Clock clock;
 
-    public ConcurrencyLimitAdvice(Clock clock) {
+    public InstagramConcurrencyLimitAdvice(Clock clock) {
         this.clock = clock;
     }
 
@@ -31,11 +31,12 @@ public class ConcurrencyLimitAdvice {
         String timestamp = now(clock)
             .toString();
 
-        LOGGER.warn("bhyt [instagram-starter] Превышен лимит запросов по пути {} {}", path, timestamp);
+        LOGGER.warn("vjcn [instagram-starter] Превышен лимит запросов по пути {} {}", path, timestamp);
 
         ProblemDetail problemDetail = forStatusAndDetail(TOO_MANY_REQUESTS, "Лимит запросов исчерпан");
         problemDetail.setTitle("Too Many Requests");
         problemDetail.setProperty("timestamp", timestamp);
+
         return problemDetail;
     }
 }

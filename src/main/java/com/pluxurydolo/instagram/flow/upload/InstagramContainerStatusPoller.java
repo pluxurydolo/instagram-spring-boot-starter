@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.flow.upload;
 
 import com.pluxurydolo.instagram.dto.request.ContainerStatusRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
-import com.pluxurydolo.instagram.exception.InstagramImageContainerStatusException;
+import com.pluxurydolo.instagram.exception.InstagramContainerStatusException;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.reactivestreams.Publisher;
@@ -56,7 +56,7 @@ public class InstagramContainerStatusPoller {
             .doOnNext(status -> LOGGER.info("qsfx [instagram-starter] Статус контейнера: {}", status))
             .onErrorResume(throwable -> {
                 LOGGER.error("ykyn [instagram-starter] Произошла ошибка при проверке статуса контейнера {}", containerId);
-                return Mono.error(new InstagramImageContainerStatusException(throwable));
+                return Mono.error(new InstagramContainerStatusException(throwable));
             })
             .filter("FINISHED"::equals);
     }

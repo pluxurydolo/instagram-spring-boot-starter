@@ -3,9 +3,9 @@ package com.pluxurydolo.instagram.configuration;
 import com.pluxurydolo.instagram.flow.upload.InstagramContainerPublisher;
 import com.pluxurydolo.instagram.flow.upload.InstagramContainerStatusPoller;
 import com.pluxurydolo.instagram.flow.upload.image.InstagramImageContainerCreator;
-import com.pluxurydolo.instagram.flow.upload.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.flow.upload.image.InstagramImagePublisher;
 import com.pluxurydolo.instagram.flow.upload.video.InstagramVideoContainerCreator;
-import com.pluxurydolo.instagram.flow.upload.video.InstagramVideoUploader;
+import com.pluxurydolo.instagram.flow.upload.video.InstagramVideoPublisher;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
@@ -19,14 +19,14 @@ public class InstagramUploadConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public InstagramImageUploader instagramImageUploader(
+    public InstagramImagePublisher instagramImagePublisher(
         InstagramImageContainerCreator instagramImageContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokenRetriever abstractTokenRetriever,
         InstagramAuthProperties instagramAuthProperties
     ) {
-        return new InstagramImageUploader(
+        return new InstagramImagePublisher(
             instagramImageContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,
@@ -37,14 +37,14 @@ public class InstagramUploadConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public InstagramVideoUploader instagramVideoUploader(
+    public InstagramVideoPublisher instagramVideoPublisher(
         InstagramVideoContainerCreator instagramVideoContainerCreator,
         InstagramContainerStatusPoller instagramContainerStatusPoller,
         InstagramContainerPublisher instagramContainerPublisher,
         AbstractTokenRetriever abstractTokenRetriever,
         InstagramAuthProperties instagramAuthProperties
     ) {
-        return new InstagramVideoUploader(
+        return new InstagramVideoPublisher(
             instagramVideoContainerCreator,
             instagramContainerStatusPoller,
             instagramContainerPublisher,

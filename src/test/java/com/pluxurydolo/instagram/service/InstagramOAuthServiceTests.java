@@ -17,6 +17,8 @@ import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -57,8 +59,8 @@ class InstagramOAuthServiceTests {
     void testLogin() {
         doNothing()
             .when(httpHeaders).setLocation(any());
-        when(instagramAuthorizationCodeFlow.getAuthorizationUrl())
-            .thenReturn("authorizationUrl");
+        when(instagramAuthorizationCodeFlow.getAuthorizationUri())
+            .thenReturn(URI.create("authorizationUrl"));
         when(serverWebExchange.getResponse())
             .thenReturn(serverHttpResponse);
         when(serverHttpResponse.setStatusCode(any()))

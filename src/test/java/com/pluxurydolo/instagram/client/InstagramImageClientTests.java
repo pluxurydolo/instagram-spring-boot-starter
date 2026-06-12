@@ -1,8 +1,8 @@
 package com.pluxurydolo.instagram.client;
 
-import com.pluxurydolo.instagram.dto.request.UploadMediaRequest;
-import com.pluxurydolo.instagram.exception.InstagramImageUploadException;
-import com.pluxurydolo.instagram.flow.upload.image.InstagramImageUploader;
+import com.pluxurydolo.instagram.dto.request.PublishMediaRequest;
+import com.pluxurydolo.instagram.exception.InstagramImagePublicationException;
+import com.pluxurydolo.instagram.flow.upload.image.InstagramImagePublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,17 +18,17 @@ import static reactor.test.StepVerifier.create;
 class InstagramImageClientTests {
 
     @Mock
-    private InstagramImageUploader instagramImageUploader;
+    private InstagramImagePublisher instagramImagePublisher;
 
     @InjectMocks
     private InstagramImageClient instagramImageClient;
 
     @Test
-    void testUploadImage() {
-        when(instagramImageUploader.upload(any()))
+    void testPublishImage() {
+        when(instagramImagePublisher.publish(any()))
             .thenReturn(Mono.just(""));
 
-        Mono<String> result = instagramImageClient.uploadImage(uploadMediaRequest());
+        Mono<String> result = instagramImageClient.publishImage(publishMediaRequest());
 
         create(result)
             .expectNext("")
@@ -36,17 +36,17 @@ class InstagramImageClientTests {
     }
 
     @Test
-    void testUploadImageWhenExceptionOccurred() {
-        when(instagramImageUploader.upload(any()))
+    void testPublishImageWhenExceptionOccurred() {
+        when(instagramImagePublisher.publish(any()))
             .thenReturn(Mono.error(new RuntimeException()));
 
-        Mono<String> result = instagramImageClient.uploadImage(uploadMediaRequest());
+        Mono<String> result = instagramImageClient.publishImage(publishMediaRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramImageUploadException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramImagePublicationException.class));
     }
 
-    private static UploadMediaRequest uploadMediaRequest() {
-        return new UploadMediaRequest("mediaUrl", "caption");
+    private static PublishMediaRequest publishMediaRequest() {
+        return new PublishMediaRequest("mediaUrl", "caption");
     }
 }

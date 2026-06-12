@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.flow.upload.video;
 
 import com.pluxurydolo.instagram.dto.request.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramCreateImageContainerException;
+import com.pluxurydolo.instagram.exception.InstagramCreateVideoContainerException;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +46,7 @@ class InstagramVideoContainerCreatorTests {
         Mono<ContainerResponse> result = instagramVideoContainerCreator.create(createContainerRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramCreateImageContainerException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramCreateVideoContainerException.class));
     }
 
     private static CreateContainerRequest createContainerRequest() {

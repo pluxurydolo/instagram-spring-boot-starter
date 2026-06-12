@@ -34,7 +34,7 @@ public class InstagramRefreshTokenSchedulerHandler {
             .flatMap(_ -> refreshTokenSchedulerHandlerHook.doAfter())
             .doOnSuccess(_ -> LOGGER.info("knhi [instagram-starter] Джоба {} успешно завершена", jobName))
             .onErrorResume(throwable -> {
-                LOGGER.error("aebc [instagram-starter] Джоба {} успешно завершена", jobName);
+                LOGGER.error("aebc [instagram-starter] Произошла ошибка при выполнении джобы {}", jobName);
                 return refreshTokenSchedulerHandlerHook.handleException(throwable, jobName);
             });
     }

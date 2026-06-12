@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.flow.upload;
 
 import com.pluxurydolo.instagram.dto.request.PublishContainerRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramPublishImageContainerException;
+import com.pluxurydolo.instagram.exception.InstagramPublishContainerException;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +44,7 @@ class InstagramContainerPublisherTests {
         Mono<ContainerResponse> result = instagramContainerPublisher.publish(publishContainerRequest());
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramPublishImageContainerException.class));
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramPublishContainerException.class));
     }
 
     private static PublishContainerRequest publishContainerRequest() {

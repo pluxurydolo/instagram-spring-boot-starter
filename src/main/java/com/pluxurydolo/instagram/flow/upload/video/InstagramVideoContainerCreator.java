@@ -2,7 +2,7 @@ package com.pluxurydolo.instagram.flow.upload.video;
 
 import com.pluxurydolo.instagram.dto.request.CreateContainerRequest;
 import com.pluxurydolo.instagram.dto.response.ContainerResponse;
-import com.pluxurydolo.instagram.exception.InstagramCreateImageContainerException;
+import com.pluxurydolo.instagram.exception.InstagramCreateVideoContainerException;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +38,7 @@ public class InstagramVideoContainerCreator {
             .doOnSuccess(_ -> LOGGER.info("xznj [instagram-starter] Контейнер видео {} успешно создан", videoUrl))
             .onErrorResume(throwable -> {
                 LOGGER.error("plei [instagram-starter] Произошла ошибка при создании контейнера видео {}", videoUrl);
-                return Mono.error(new InstagramCreateImageContainerException(throwable));
+                return Mono.error(new InstagramCreateVideoContainerException(throwable));
             });
     }
 }
