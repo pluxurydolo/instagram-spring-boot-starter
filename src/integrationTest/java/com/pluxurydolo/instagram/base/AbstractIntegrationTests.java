@@ -1,7 +1,7 @@
 package com.pluxurydolo.instagram.base;
 
 import com.pluxurydolo.instagram.TestApplication;
-import com.pluxurydolo.instagram.configuration.SchedulerTestConfiguration;
+import com.pluxurydolo.instagram.configuration.HookTestConfiguration;
 import com.pluxurydolo.instagram.configuration.TokensTestConfiguration;
 import com.pluxurydolo.instagram.configuration.WebTestConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,7 @@ import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFOR
 @SpringBootTest(classes = {
     TestApplication.class,
     TokensTestConfiguration.class,
-    SchedulerTestConfiguration.class,
+    HookTestConfiguration.class,
     WebTestConfiguration.class
 })
 @DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)

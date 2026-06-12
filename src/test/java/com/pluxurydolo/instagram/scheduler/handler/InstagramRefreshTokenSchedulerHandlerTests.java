@@ -1,9 +1,6 @@
 package com.pluxurydolo.instagram.scheduler.handler;
 
-import com.pluxurydolo.instagram.dto.InstagramTokens;
-import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
 import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -11,8 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Mono;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static reactor.test.StepVerifier.create;
 
@@ -22,22 +17,12 @@ class InstagramRefreshTokenSchedulerHandlerTests {
     @Mock
     private InstagramRefreshTokenFlow instagramRefreshTokenFlow;
 
-    @Mock
-    private AbstractTokenRetriever abstractTokenRetriever;
-
-    @Mock
-    private RefreshTokenSchedulerHandlerHook refreshTokenSchedulerHandlerHook;
-
     @InjectMocks
     private InstagramRefreshTokenSchedulerHandler instagramRefreshTokenSchedulerHandler;
 
     @Test
     void testHandle() {
-        when(abstractTokenRetriever.retrieve())
-            .thenReturn(Mono.just(instagramTokens()));
-        when(instagramRefreshTokenFlow.refreshToken(anyString()))
-            .thenReturn(Mono.just(""));
-        when(refreshTokenSchedulerHandlerHook.doAfter())
+        when(instagramRefreshTokenFlow.refreshToken())
             .thenReturn(Mono.just(""));
 
         Mono<String> result = instagramRefreshTokenSchedulerHandler.handle("jobName");
@@ -49,19 +34,12 @@ class InstagramRefreshTokenSchedulerHandlerTests {
 
     @Test
     void testHandleWhenExceptionOccurred() {
-        when(abstractTokenRetriever.retrieve())
+        when(instagramRefreshTokenFlow.refreshToken())
             .thenReturn(Mono.error(new RuntimeException()));
-        when(refreshTokenSchedulerHandlerHook.handleException(any(), anyString()))
-            .thenReturn(Mono.just(""));
 
         Mono<String> result = instagramRefreshTokenSchedulerHandler.handle("jobName");
 
         create(result)
-            .expectNext("")
-            .verifyComplete();
-    }
-
-    private static InstagramTokens instagramTokens() {
-        return new InstagramTokens("exchangeTokens", "accessToken");
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(RuntimeException.class));
     }
 }

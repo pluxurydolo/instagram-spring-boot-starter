@@ -1,10 +1,8 @@
 package com.pluxurydolo.instagram.configuration;
 
+import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.scheduler.InstagramRefreshTokenScheduler;
 import com.pluxurydolo.instagram.scheduler.handler.InstagramRefreshTokenSchedulerHandler;
-import com.pluxurydolo.instagram.scheduler.hook.RefreshTokenSchedulerHandlerHook;
-import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
-import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,14 +23,8 @@ public class InstagramSchedulingConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public InstagramRefreshTokenSchedulerHandler instagramRefreshTokenSchedulerHandler(
-        InstagramRefreshTokenFlow instagramRefreshTokenFlow,
-        AbstractTokenRetriever abstractTokenRetriever,
-        RefreshTokenSchedulerHandlerHook refreshTokenSchedulerHandlerHook
+        InstagramRefreshTokenFlow instagramRefreshTokenFlow
     ) {
-        return new InstagramRefreshTokenSchedulerHandler(
-            instagramRefreshTokenFlow,
-            abstractTokenRetriever,
-            refreshTokenSchedulerHandlerHook
-        );
+        return new InstagramRefreshTokenSchedulerHandler(instagramRefreshTokenFlow);
     }
 }

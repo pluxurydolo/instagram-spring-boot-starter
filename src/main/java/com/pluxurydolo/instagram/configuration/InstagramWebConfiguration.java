@@ -3,10 +3,8 @@ package com.pluxurydolo.instagram.configuration;
 import com.pluxurydolo.instagram.controller.InstagramOAuthController;
 import com.pluxurydolo.instagram.flow.oauth.InstagramAccessTokenFlow;
 import com.pluxurydolo.instagram.flow.oauth.InstagramAuthorizationCodeFlow;
-import com.pluxurydolo.instagram.flow.oauth.InstagramExchangeTokenFlow;
 import com.pluxurydolo.instagram.flow.oauth.InstagramRefreshTokenFlow;
 import com.pluxurydolo.instagram.service.InstagramOAuthService;
-import com.pluxurydolo.instagram.token.AbstractTokenRetriever;
 import com.pluxurydolo.instagram.web.InstagramApiHttpClient;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -32,17 +30,13 @@ public class InstagramWebConfiguration {
     @ConditionalOnMissingBean
     public InstagramOAuthService instagramOAuthService(
         InstagramAuthorizationCodeFlow instagramAuthorizationCodeFlow,
-        InstagramExchangeTokenFlow instagramExchangeTokenFlow,
         InstagramAccessTokenFlow instagramAccessTokenFlow,
-        InstagramRefreshTokenFlow instagramRefreshTokenFlow,
-        AbstractTokenRetriever abstractTokenRetriever
+        InstagramRefreshTokenFlow instagramRefreshTokenFlow
     ) {
         return new InstagramOAuthService(
             instagramAuthorizationCodeFlow,
-            instagramExchangeTokenFlow,
             instagramAccessTokenFlow,
-            instagramRefreshTokenFlow,
-            abstractTokenRetriever
+            instagramRefreshTokenFlow
         );
     }
 

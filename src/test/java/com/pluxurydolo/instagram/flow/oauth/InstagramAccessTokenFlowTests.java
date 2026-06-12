@@ -1,7 +1,7 @@
 package com.pluxurydolo.instagram.flow.oauth;
 
 import com.pluxurydolo.instagram.dto.response.TokenResponse;
-import com.pluxurydolo.instagram.exception.InstagramAccessTokenFlowException;
+import com.pluxurydolo.instagram.flow.oauth.hook.AccessTokenFlowHook;
 import com.pluxurydolo.instagram.properties.InstagramAuthProperties;
 import com.pluxurydolo.instagram.token.AbstractTokenSaver;
 import com.pluxurydolo.instagram.web.InstagramApiHttpClient;
@@ -30,6 +30,9 @@ class InstagramAccessTokenFlowTests {
     @Mock
     private AbstractTokenSaver abstractTokenSaver;
 
+    @Mock
+    private AccessTokenFlowHook accessTokenFlowHook;
+
     @InjectMocks
     private InstagramAccessTokenFlow instagramAccessTokenFlow;
 
@@ -39,31 +42,40 @@ class InstagramAccessTokenFlowTests {
             .thenReturn("appId");
         when(instagramAuthProperties.appSecret())
             .thenReturn("appSecret");
+        when(instagramAuthProperties.redirectUri())
+            .thenReturn("redirectUri");
     }
 
     @Test
-    void testGetToken() {
+    void testGetAccessToken() {
+        when(instagramApiHttpClient.getExchangeToken(anyString(), anyString(), anyString(), anyString()))
+            .thenReturn(Mono.just(tokenResponse()));
         when(instagramApiHttpClient.getAccessToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.just(tokenResponse()));
         when(abstractTokenSaver.save(any(), anyString()))
             .thenReturn(Mono.just(""));
+        when(accessTokenFlowHook.doAfter())
+            .thenReturn(Mono.just(""));
 
-        Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");
+        Mono<String> result = instagramAccessTokenFlow.getAccessToken("exchangeToken");
 
         create(result)
-            .expectNext("")
+            .expectNext("SUCCESS")
             .verifyComplete();
     }
 
     @Test
-    void testGetTokenWhenExceptionOccurred() {
-        when(instagramApiHttpClient.getAccessToken(anyString(), anyString(), anyString(), anyString()))
+    void testGetAccessTokenWhenExceptionOccurred() {
+        when(instagramApiHttpClient.getExchangeToken(anyString(), anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
+        when(accessTokenFlowHook.handleException(any()))
+            .thenReturn(Mono.just(""));
 
-        Mono<String> result = instagramAccessTokenFlow.getToken("exchangeToken");
+        Mono<String> result = instagramAccessTokenFlow.getAccessToken("exchangeToken");
 
         create(result)
-            .verifyErrorMatches(throwable -> throwable.getClass().equals(InstagramAccessTokenFlowException.class));
+            .expectNext("")
+            .verifyComplete();
     }
 
     private static TokenResponse tokenResponse() {

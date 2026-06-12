@@ -26,7 +26,7 @@ class InstagramOAuthControllerIntegrationTests extends AbstractControllerIntegra
             .exchange()
             .expectStatus().isOk()
             .expectBody(String.class)
-            .value(response -> assertThat(response).isEqualTo("saveTokens"));
+            .value(response -> assertThat(response).isEqualTo("SUCCESS"));
     }
 
     @Test
@@ -36,7 +36,7 @@ class InstagramOAuthControllerIntegrationTests extends AbstractControllerIntegra
             .exchange()
             .expectStatus().isOk()
             .expectBody(String.class)
-            .value(response -> assertThat(response).isEqualTo("saveTokens"));
+            .value(response -> assertThat(response).isEqualTo("SUCCESS"));
     }
 
     private static String locationHeader() {
