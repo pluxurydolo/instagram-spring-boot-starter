@@ -14,7 +14,10 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 @HttpExchange(url = "https://graph.facebook.com")
 public interface InstagramUploadHttpClient {
 
-    @PostExchange(url = "/v20.0/{userId}/media", contentType = APPLICATION_FORM_URLENCODED_VALUE)
+    @PostExchange(
+        url = "/v20.0/{userId}/media",
+        contentType = APPLICATION_FORM_URLENCODED_VALUE
+    )
     Mono<ContainerResponse> createImageContainer(
         @PathVariable String userId,
         @RequestParam("image_url") String imageUrl,
@@ -22,7 +25,10 @@ public interface InstagramUploadHttpClient {
         @RequestParam("caption") String caption
     );
 
-    @PostExchange(url = "/v20.0/{userId}/media", contentType = APPLICATION_FORM_URLENCODED_VALUE)
+    @PostExchange(
+        url = "/v20.0/{userId}/media",
+        contentType = APPLICATION_FORM_URLENCODED_VALUE
+    )
     Mono<ContainerResponse> createVideoContainer(
         @PathVariable String userId,
         @RequestParam("media_type") String mediaType,
@@ -33,14 +39,17 @@ public interface InstagramUploadHttpClient {
         @RequestParam("share_to_feed") String shareToFeed
     );
 
-    @PostExchange(url = "/v20.0/{userId}/media_publish", contentType = APPLICATION_FORM_URLENCODED_VALUE)
+    @PostExchange(
+        url = "/v20.0/{userId}/media_publish",
+        contentType = APPLICATION_FORM_URLENCODED_VALUE
+    )
     Mono<ContainerResponse> publishContainer(
         @PathVariable String userId,
         @RequestParam("creation_id") String containerId,
         @RequestParam("access_token") String accessToken
     );
 
-    @GetExchange(url = "/v20.0/{containerId}")
+    @GetExchange("/v20.0/{containerId}")
     Mono<ContainerStatusResponse> getContainerStatus(
         @PathVariable String containerId,
         @RequestParam("fields") String fields,
