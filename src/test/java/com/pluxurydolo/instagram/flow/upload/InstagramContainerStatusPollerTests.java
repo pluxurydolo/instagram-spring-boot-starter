@@ -5,6 +5,7 @@ import com.pluxurydolo.instagram.dto.response.ContainerStatusResponse;
 import com.pluxurydolo.instagram.exception.InstagramContainerStatusException;
 import com.pluxurydolo.instagram.properties.InstagramPollingProperties;
 import com.pluxurydolo.instagram.web.InstagramUploadHttpClient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,14 +31,18 @@ class InstagramContainerStatusPollerTests {
     @InjectMocks
     private InstagramContainerStatusPoller instagramContainerStatusPoller;
 
+    @BeforeEach
+    void setUp() {
+        when(instagramPollingProperties.delay())
+            .thenReturn(Duration.ofMillis(100));
+        when(instagramPollingProperties.maxRepeat())
+            .thenReturn(5);
+    }
+
     @Test
     void testPoll() {
-        when(instagramPollingProperties.delay())
-            .thenReturn(Duration.ofSeconds(1));
-        when(instagramPollingProperties.maxRepeat())
-            .thenReturn(100);
         when(instagramUploadHttpClient.getContainerStatus(anyString(), anyString(), anyString()))
-            .thenReturn(Mono.just(containerStatusResponse()));
+            .thenReturn(Mono.just(containerStatusResponse("FINISHED")));
 
         Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
 
@@ -47,11 +52,18 @@ class InstagramContainerStatusPollerTests {
     }
 
     @Test
+    void testPollWhenStatusIsProcessing() {
+        when(instagramUploadHttpClient.getContainerStatus(anyString(), anyString(), anyString()))
+            .thenReturn(Mono.just(containerStatusResponse("PROCESSING")));
+
+        Mono<String> result = instagramContainerStatusPoller.poll(createContainerStatusRequest());
+
+        create(result)
+            .verifyErrorMatches(throwable -> throwable.getClass().equals(IllegalStateException.class));
+    }
+
+    @Test
     void testPollWhenExceptionOccurred() {
-        when(instagramPollingProperties.delay())
-            .thenReturn(Duration.ofSeconds(1));
-        when(instagramPollingProperties.maxRepeat())
-            .thenReturn(100);
         when(instagramUploadHttpClient.getContainerStatus(anyString(), anyString(), anyString()))
             .thenReturn(Mono.error(new RuntimeException()));
 
@@ -65,7 +77,7 @@ class InstagramContainerStatusPollerTests {
         return new ContainerStatusRequest("containerId", "accessToken");
     }
 
-    private static ContainerStatusResponse containerStatusResponse() {
-        return new ContainerStatusResponse("id", "FINISHED", "status");
+    private static ContainerStatusResponse containerStatusResponse(String status) {
+        return new ContainerStatusResponse("id", status, "status");
     }
 }
