@@ -15,7 +15,7 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 public interface InstagramUploadHttpClient {
 
     @PostExchange(
-        url = "/v20.0/{userId}/media",
+        url = "/v26.0/{userId}/media",
         contentType = APPLICATION_FORM_URLENCODED_VALUE
     )
     Mono<ContainerResponse> createImageContainer(
@@ -26,7 +26,7 @@ public interface InstagramUploadHttpClient {
     );
 
     @PostExchange(
-        url = "/v20.0/{userId}/media",
+        url = "/v26.0/{userId}/media",
         contentType = APPLICATION_FORM_URLENCODED_VALUE
     )
     Mono<ContainerResponse> createVideoContainer(
@@ -40,7 +40,7 @@ public interface InstagramUploadHttpClient {
     );
 
     @PostExchange(
-        url = "/v20.0/{userId}/media_publish",
+        url = "/v26.0/{userId}/media_publish",
         contentType = APPLICATION_FORM_URLENCODED_VALUE
     )
     Mono<ContainerResponse> publishContainer(
@@ -49,7 +49,7 @@ public interface InstagramUploadHttpClient {
         @RequestParam("access_token") String accessToken
     );
 
-    @GetExchange("/v20.0/{containerId}")
+    @GetExchange("/v26.0/{containerId}")
     Mono<ContainerStatusResponse> getContainerStatus(
         @PathVariable String containerId,
         @RequestParam("fields") String fields,

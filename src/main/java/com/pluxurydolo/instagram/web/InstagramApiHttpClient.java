@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 @HttpExchange(url = "https://graph.facebook.com")
 public interface InstagramApiHttpClient {
 
-    @GetExchange("/v20.0/oauth/access_token")
+    @GetExchange("/v26.0/oauth/access_token")
     Mono<TokenResponse> getExchangeToken(
         @RequestParam("client_id") String appId,
         @RequestParam("client_secret") String appSecret,
@@ -17,7 +17,7 @@ public interface InstagramApiHttpClient {
         @RequestParam("code") String code
     );
 
-    @GetExchange("/v20.0/oauth/access_token")
+    @GetExchange("/v26.0/oauth/access_token")
     Mono<TokenResponse> getAccessToken(
         @RequestParam("grant_type") String grantType,
         @RequestParam("client_id") String appId,
